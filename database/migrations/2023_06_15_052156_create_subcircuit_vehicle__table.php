@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users_subcircuits', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained('users');
+        Schema::create('subcircuit_vehicle', function (Blueprint $table) {
+            $table->foreignId('vehicle_id')->constrained('vehicles');
             $table->foreignId('subcircuit_id')->constrained('subcircuits');
         });
     }
@@ -22,10 +22,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users_roles', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
+        Schema::table('subcircuit_vehicle', function (Blueprint $table) {
+            $table->dropForeign(['vehicle_id']);
             $table->dropForeign(['subcircuit_id']);
         });
-        Schema::dropIfExists('users_subcircuits');
+        Schema::dropIfExists('subcircuit_vehicle');
     }
 };

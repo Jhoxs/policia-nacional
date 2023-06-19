@@ -13,10 +13,18 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Poppins', 'Figtree', ...defaultTheme.fontFamily.sans],
             },
+            backgroundColor:{
+                primary:"#1677ff"
+            }
         },
     },
+    
+    corePlugins: {
+        preflight: false,
+    },
+    
 
-    plugins: [forms],
+    plugins: [],
 };

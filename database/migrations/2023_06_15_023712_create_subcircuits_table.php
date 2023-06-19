@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('subcircuits', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
-            $table->string('name');
-            $table->foreignId('circuits_id')->constrained('circuits');
+            $table->string('name')->unique();
+            $table->string('display_name');
+            $table->foreignId('circuit_id')->constrained('circuits');
             $table->timestamps();
         });
     }
@@ -26,7 +27,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('subcircuits', function (Blueprint $table) {
-            $table->dropForeign(['circuits_id']);
+            $table->dropForeign(['circuit_id']);
         });
         Schema::dropIfExists('subcircuits');
     }
