@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('last_name')->after('name');
-            $table->bigInteger('identification')->unique()->after('last_name');
-            $table->bigInteger('phone')->unique()->nullable()->after('identification');
+            $table->string('identification')->unique()->after('last_name');
+            $table->string('phone')->unique()->nullable()->after('identification');
             $table->date('birthdate')->after('phone');
             $table->foreignId('city_id')->after('birthdate')->constrained('cities');
             $table->foreignId('blood_type_id')->after('city_id')->constrained('blood_types');
             $table->foreignId('rank_id')->after('blood_type_id')->constrained('ranks');
             $table->softDeletes()->after('updated_at');
 
-            
         });
     }
 

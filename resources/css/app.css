@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+*,
+::before,
+::after {
+  border-width: 0;
+  border-style: solid;
+  border-color: theme('borderColor.DEFAULT', currentColor);
+  font-family: 'Poppins';
+}
+
+a{
+  text-decoration: none;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+}

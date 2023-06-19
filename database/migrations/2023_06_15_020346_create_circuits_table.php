@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('circuits', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
-            $table->string('name');
+            $table->string('name')->unique();
+            $table->string('display_name');
             $table->foreignId('parish_id')->constrained('parishes');
             $table->timestamps();
         });

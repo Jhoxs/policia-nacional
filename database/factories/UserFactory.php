@@ -4,6 +4,9 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Models\BloodType;
+use App\Models\City;
+use App\Models\Rank;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -19,6 +22,13 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'last_name' => fake()->name(),
+            'identification' => fake()->unique()->numerify('##########'),
+            'phone' => fake()->unique()->numerify('##########'),
+            'birthdate' => '2023-03-01',
+            'city_id' => City::factory(),
+            'blood_type_id' => BloodType::factory(),
+            'rank_id' => Rank::factory(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

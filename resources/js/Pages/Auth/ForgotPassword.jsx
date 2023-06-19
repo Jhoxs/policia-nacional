@@ -3,6 +3,7 @@ import InputError from '@/Components/InputError';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, useForm } from '@inertiajs/react';
+import { Button, Checkbox, Form, Input } from 'antd';
 
 export default function ForgotPassword({ status }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -20,29 +21,29 @@ export default function ForgotPassword({ status }) {
             <Head title="Forgot Password" />
 
             <div className="mb-4 text-sm text-gray-600">
-                Forgot your password? No problem. Just let us know your email address and we will email you a password
-                reset link that will allow you to choose a new one.
+                ¿Olvidaste tu contraseña? No hay problema, enviaremos a tu email un link con el que podrás restaurar tu contraseña.
             </div>
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
 
             <form onSubmit={submit}>
-                <TextInput
+                <Input
                     id="email"
                     type="email"
                     name="email"
                     value={data.email}
                     className="mt-1 block w-full"
-                    isFocused={true}
+                    size="large"
                     onChange={(e) => setData('email', e.target.value)}
+                    placeholder="Correo Electrónico"
                 />
 
                 <InputError message={errors.email} className="mt-2" />
 
-                <div className="flex items-center justify-end mt-4">
-                    <PrimaryButton className="ml-4" disabled={processing}>
-                        Email Password Reset Link
-                    </PrimaryButton>
+                <div className="flex items-center justify-end mt-4 ">
+                    <Button type="primary" size="large" className="ml-4 bg-cyan-600" disabled={processing} onClick={submit}>
+                        Restablecimiento de contraseña
+                    </Button>
                 </div>
             </form>
         </GuestLayout>
