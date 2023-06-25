@@ -3,9 +3,9 @@ import { Link } from '@inertiajs/react';
 
 export default function Guest({ children }) {
     return (
-        <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-cyan-900">
+        <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-[#203956]">
 
-            <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <div className="xl:w-full lg:w-full sm:max-w-md mt-6 px-6 mb-3 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 {children}
             </div>
         </div>

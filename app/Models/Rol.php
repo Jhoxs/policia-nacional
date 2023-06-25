@@ -2,28 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Role;
 
-class Rol extends Model
+class Rol extends Role
 {
-    use HasFactory;
 
-     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'display_name'
-    ];
 
-    /**
-     * Los usuarios que pertenecen al rol.
-     */
-    public function users(): BelongsToMany
+    public function getListRoleCount()
     {
-        return $this->belongsToMany(User::class);
+        return static::withCount('users')->get();
     }
 }

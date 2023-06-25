@@ -13,8 +13,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        //User::factory(1)->create();
-
         User::factory()->create([
             'name' => 'Admin',
             'last_name' => 'Admin',
@@ -23,5 +21,7 @@ class UserSeeder extends Seeder
             'blood_type_id' => 1,
             'rank_id' => 1
         ]);
+
+        User::factory(10)->create();
     }
 }

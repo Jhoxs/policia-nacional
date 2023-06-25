@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->string('name')->unique();
-            $table->string('display_name');
+            $table->string('display_name')->unique();
             $table->foreignId('city_id')->constrained('cities');
             $table->timestamps();
         });
