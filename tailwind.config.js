@@ -21,9 +21,9 @@ export default {
         },
     },
     
-    corePlugins: {
+   /*  corePlugins: {
         preflight: false,
-    },
+    }, */
     
 
     plugins: [],

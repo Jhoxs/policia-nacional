@@ -20,7 +20,7 @@ class CircuitFactory extends Factory
         return [
             'code' => fake()->unique()->name(),
             'name' => fake()->unique()->name(),
-            'display_name' => fake()->name(),
+            'display_name' => fake()->unique()->name(),
             'parish_id' => Parish::factory()
         ];
     }

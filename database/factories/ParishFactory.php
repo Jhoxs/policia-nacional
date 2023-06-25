@@ -20,7 +20,7 @@ class ParishFactory extends Factory
         return [
             'code' => fake()->unique()->name(),
             'name' => fake()->unique()->name(),
-            'display_name' => fake()->name(),
+            'display_name' => fake()->unique()->name(),
             'city_id' => City::factory()
         ];
     }

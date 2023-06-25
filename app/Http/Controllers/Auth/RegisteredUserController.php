@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Rank;
+use App\Models\BloodType;
+use App\Models\City;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\Http\Requests\RegisteredUserRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
@@ -21,7 +25,12 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        $combobox_options = [
+            'ranks' => (new Rank)->displayFormattedOptions(),
+            'blood_types' => (new BloodType)->displayFormattedOptions(),
+            'cities' => (new City)->displayFormattedOptions(),
+        ];
+        return Inertia::render('Auth/Register',$combobox_options);
     }
 
     /**
@@ -29,16 +38,17 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(RegisteredUserRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:'.User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-
         $user = User::create([
             'name' => $request->name,
+            'last_name' => $request->lastname,
+            'identification' => $request->identification,
+            'phone' => $request->phone,
+            'birthdate' => $request->birthdate_string,
+            'city_id' => $request->city,
+            'blood_type_id' => $request->blood_type,
+            'rank_id' => $request->rank,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);

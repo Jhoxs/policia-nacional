@@ -7,7 +7,7 @@ import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { DatePicker, Input, InputNumber, Select, Button } from 'antd';
 import { PlusOutlined, UserOutlined, PhoneOutlined } from '@ant-design/icons';
-export default function Register() {
+export default function Register({ranks,blood_types,cities}) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         lastname:'',
@@ -54,6 +54,7 @@ export default function Register() {
                         className="mt-1 block w-full"
                         autoFocus={true}
                         onChange={(e) => setData('name', e.target.value)}
+                        status={errors.name ? 'error' : null}
                         required
                     />
 
@@ -72,6 +73,7 @@ export default function Register() {
                         className="mt-1 block w-full"
                         autoFocus={true}
                         onChange={(e) => setData('lastname', e.target.value)}
+                        status={errors.lastname ? 'error' : null}
                         required
                     />
 
@@ -146,8 +148,10 @@ export default function Register() {
                             return current && current.valueOf() > Date.now();
                         }}
                         placeholder="Selecciona tu fecha de nacimiento"
+                        status={errors.birthdate_string ? 'error' : null}
                         format={dateFormat}
                     />
+                    <InputError message={errors.birthdate_string} className="mt-2" />
                 </div>
                 
                 <div className="mt-4">
@@ -157,15 +161,12 @@ export default function Register() {
                         name="city"
                         defaultValue=""
                         className="mt-1 block w-full"
+                        status={errors.city ? 'error' : null}
                         onChange={(e) => {
                             setData('city',e);
                         }}
                         size="large"
-                        options={[
-                            {value:'QUITO',label:'Quito'},
-                            {value:'GUAYAQUIL',label:'Guayaquil'}
-
-                        ]}
+                        options={cities}
                         showSearch
                         optionFilterProp="children"
                         filterOption={(input, option) =>
@@ -173,6 +174,7 @@ export default function Register() {
                         }
                         required
                     />
+                    <InputError message={errors.city} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
@@ -182,17 +184,20 @@ export default function Register() {
                         name="blood_type"
                         defaultValue=""
                         className="mt-1 block w-full"
+                        status={errors.blood_type ? 'error' : null}
+                        filterOption={(input, option) =>
+                            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                        }
+                        showSearch
+                        optionFilterProp="children"
                         onChange={(e) => {
                             setData('blood_type',e);
                         }}
                         size="large"
-                        options={[
-                            {value:'O-POSITIVO',label:'O +'},
-                            {value:'O-NEGATIVO',label:'O -'}
-
-                        ]}
+                        options={blood_types}
                         required
                     />
+                    <InputError message={errors.blood_type} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
@@ -202,17 +207,20 @@ export default function Register() {
                         name="rank"
                         defaultValue=""
                         className="mt-1 block w-full"
+                        status={errors.rank ? 'error' : null}
                         onChange={(e) => {
                             setData('rank',e);
                         }}
                         size="large"
-                        options={[
-                            {value:'cadete',label:'Cadete'},
-                            {value:'comandante',label:'Comandante'}
-
-                        ]}
+                        options={ranks}
+                        filterOption={(input, option) =>
+                            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                        }
+                        showSearch
+                        optionFilterProp="children"
                         required
                     />
+                    <InputError message={errors.rank} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
@@ -227,6 +235,7 @@ export default function Register() {
                         className="mt-1 block w-full"
                         autoComplete="username"
                         onChange={(e) => setData('email', e.target.value)}
+                        status={errors.email ? 'error' : null}
                         required
                     />
 
@@ -242,6 +251,7 @@ export default function Register() {
                         name="password"
                         size="large"
                         value={data.password}
+                        status={errors.password ? 'error' : null}
                         autoComplete="new-password"
                         onChange={(e) => setData('password', e.target.value)}
                         required
@@ -258,6 +268,7 @@ export default function Register() {
                         type="password"
                         name="password_confirmation"
                         value={data.password_confirmation}
+                        status={errors.password_confirmation ? 'error' : null}
                         size="large"
                         autoComplete="new-password"
                         onChange={(e) => setData('password_confirmation', e.target.value)}
@@ -275,7 +286,7 @@ export default function Register() {
                         Ya estas registrado?
                     </Link> */}
 
-                    <Button type="primary" size="large" className="ml-4 mt-2 bg-cyan-600" disabled={processing} onClick={submit}>
+                    <Button type="primary" size="large" className="ml-4 mt-2 bg-[#203956]" disabled={processing} onClick={submit}>
                         Registrar
                     </Button>
                 </div>

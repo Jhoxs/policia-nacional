@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('maintenance_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->integer('price');
             $table->text('detail')->nullable();
             $table->timestamps();

@@ -18,7 +18,7 @@ class RankFactory extends Factory
     {
         return [
             'name' => fake()->unique()->name(),
-            'display_name' => fake()->name()
+            'display_name' => fake()->unique()->name()
         ];
     }
 }

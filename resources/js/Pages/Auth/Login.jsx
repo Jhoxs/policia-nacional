@@ -84,7 +84,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="flex flex-col items-center justify-center mt-4 mb-4 ">
-                    <Button type="primary" size="large" className="mt-1 bg-cyan-600" disabled={processing} onClick={submit}>
+                    <Button type="primary" size="large" className="mt-1 bg-[#203956]" disabled={processing} onClick={submit}>
                         Ingresar
                     </Button>
 

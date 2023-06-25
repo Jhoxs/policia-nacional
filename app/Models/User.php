@@ -10,10 +10,12 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +24,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'lastname',
+        'last_name',
         'identification',
         'phone',
         'birthdate',
@@ -79,11 +81,11 @@ class User extends Authenticatable
     }
 
     /**
-     * Los roles que pertenecen al usuario.
+     * Los usuarios y los roles a los que pertenecen.
      */
-    public function roles(): BelongsToMany
+    public function roles_users_list($pages = 20)
     {
-        return $this->belongsToMany(Role::class);
+        return $this->with('roles')->whereHas('roles')->paginate($pages);
     }
 
     /**

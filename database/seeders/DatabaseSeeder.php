@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             CircuitSeeder::class,
             SubcircuitSeeder::class,
             UserSeeder::class,
-            VehicleTypeSeeder::class
+            VehicleTypeSeeder::class,
+            RoleAndPermissionSeeder::class
         ]);
     }
 }
