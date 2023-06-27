@@ -1,55 +1,34 @@
 
 import { PlusOutlined } from '@ant-design/icons';
-import { Typography, Button, Modal } from 'antd';
-import { useState } from 'react';
+import { Button, message } from 'antd';
+import { Link, usePage } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import RolWithUser from './Partials/RolWithUser';
 import RolList from './Partials/RolList';
-import Create from './Create';
 
-const { Text, Title } = Typography;
 
 const Index = ({ rolList, userList }) => {
 
-    const [open, setOpen] = useState(false);
-
-    const showModal = () => {
-        setOpen(true);
-    };
-
-    const hideModal = () => {
-        setOpen(false);
-    };
-
-    const roles = rolList?.data;
-
+    const { data } = rolList;
+    
     return (
-        <>
+        <> 
             <div className='flex justify-end'>
-                <Button
-                    type="primary"
-                    size="large"
-                    className="bg-[#52c41a] hover:bg-blue-100"
-                    icon={<PlusOutlined />}
-                    onClick={showModal}
-                >
-                    Crear Rol
-                </Button>
-                <Modal
-                    open={open}
-                    onOk={hideModal}
-                    onCancel={hideModal}
-                    okButtonProps={{ hidden: true }}
-                    cancelButtonProps={{ hidden: true }}
-                    closable={false}
-                    width={'40rem'}
-                >
-                    <Create/>
-                </Modal>
+                <Link href={route('rol.create')}>
+                    <Button
+                        type="primary"
+                        size="large"
+                        className="bg-[#52c41a] hover:bg-blue-100"
+                        icon={<PlusOutlined />}
+                    >
+                        Crear Rol
+                    </Button>
+                </Link>
+
             </div>
 
             <RolList
-                roles={roles}
+                roles={data}
             ></RolList>
 
             <div className="mt-12 ">

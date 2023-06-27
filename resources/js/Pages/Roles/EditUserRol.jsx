@@ -1,4 +1,4 @@
-import { Typography, Button, Divider, Form, Input, Checkbox, Row, Col, Space, Card } from 'antd';
+import { Typography, Button, Divider, Form, Input, Checkbox, Row, Col, Space, Card, Select } from 'antd';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -6,13 +6,11 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 const { Text, Title } = Typography;
 
 
-const Edit = ({ permissionsList, rolInfo, permissionsDefault }) => {
-    
-    const permissions = permissionsList?.data;
+const EditUserRol = ({ userRol, userInfo, rolList }) => {
 
+    const full_name = userInfo?.name + ' ' + userInfo?.last_name;
     const { data, setData, patch, processing, errors } = useForm({
-        name: rolInfo?.name,
-        permission: permissionsDefault
+        roles: userRol
     });
 
     useEffect(() => {
@@ -21,22 +19,50 @@ const Edit = ({ permissionsList, rolInfo, permissionsDefault }) => {
     });
 
     const submit = (e) => {
-        patch(route('rol.update',rolInfo.id), {
+        patch(route('rol.updateUserRol', userInfo.id), {
             onSuccess: () => {
             }
         });
+
     };
 
     return (
         <>
             <div className="flex items-center mt-2 mb-4">
                 <Title level={1} ellipsis>
-                    Edición del Rol
+                    Edición Rol Usuario
                 </Title>
                 <h1 className="flex-1 border-b-2 border-gray-100"></h1>
             </div>
             <div className="flex justify-center mt-5'">
                 <Card className='flex justify-center shadow-md' style={{ width: '60vw' }}>
+                    <Card style={{ cursor: 'inherit' , width:'55vw'}}  hoverable={true} title={<Title className='mt-3' level={4}>Información Básica</Title>} className='mt-4 mb-10' type='inner'>
+                        <div className="flex items-center mt-2">
+                            <div className="w-2/3">
+                                <Text strong>
+                                    Nombre Completo
+                                </Text>
+                            </div>
+                            <div className="w-2/3">
+                                <Text>
+                                    {full_name}
+                                </Text>
+                            </div>
+                        </div>
+                        <div className="flex items-center mt-4 mb-2">
+                            <div className="w-2/3">
+                                <Text strong>
+                                    Identificación
+                                </Text>
+                            </div>
+                            <div className="w-2/3">
+                                <Text>
+                                    {userInfo?.identification}
+                                </Text>
+                            </div>
+                        </div>
+                    </Card>
+
                     <Form
                         name="basic"
                         layout='vertical'
@@ -53,32 +79,18 @@ const Edit = ({ permissionsList, rolInfo, permissionsDefault }) => {
 
                     >
                         <Form.Item
-                            label='Nombre del Rol'
-                            name='name'
-                            validateStatus={errors.name && 'error'}
-                            help={errors.name}
+                            name="roles"
+                            label="Roles"
+                            validateStatus={errors.roles && 'error'}
+                            help={errors.roles}
                         >
-                            <Input size='large'></Input>
-                        </Form.Item>
-                        <Form.Item
-                            name="permission"
-                            label="Permisos Disponibles"
-                            validateStatus={errors.permission && 'error'}
-                            help={errors.permission}
-                        >
-                            <Checkbox.Group className='flex justify-center mt-3'>
-                                <Row>
-                                    {permissions ? (permissions.map((permission) => {
-                                        return (
-                                            <Col key={permission.id} xl={6} lg={8} md={12} sm={20} xs={24}>
-                                                <Checkbox value={permission.name} style={{ lineHeight: '40px' }}>
-                                                    {permission.name}
-                                                </Checkbox>
-                                            </Col>
-                                        )
-                                    })) : null}
-                                </Row>
-                            </Checkbox.Group>
+                            <Select
+                                size='large'
+                                mode='tags'
+                                placeholder='Roles Disponibles'
+                                options={rolList}
+                            >
+                            </Select>
                         </Form.Item>
 
                         <Row justify={'center'} align={'middle'} gutter={['10', '10']} className='mt-4'>
@@ -101,7 +113,7 @@ const Edit = ({ permissionsList, rolInfo, permissionsDefault }) => {
                                     size="large"
                                     className="mt-5 bg-[#203956]"
                                 >
-                                    Guardar Rol
+                                    Guardar
                                 </Button>
                             </Col>
                         </Row>
@@ -117,8 +129,7 @@ const Edit = ({ permissionsList, rolInfo, permissionsDefault }) => {
 }
 
 
-Edit.layout = page => (<AuthenticatedLayout title="Editar Rol" children={page} />)
+EditUserRol.layout = page => (<AuthenticatedLayout title="Editar Rol Usuario" children={page} />)
 
 
-export default Edit
-
+export default EditUserRol

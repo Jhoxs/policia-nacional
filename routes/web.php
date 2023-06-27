@@ -37,10 +37,14 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/Rol', [RolController::class, 'index'])->name('rol.index');
-    Route::get('/Rol/{id}', [RolController::class, 'edit'])->name('rol.edit');
-    Route::patch('/Rol/{id}', [RolController::class, 'update'])->name('rol.update');
-    Route::delete('/Rol/{id}', [RolController::class, 'destroy'])->name('rol.destroy');
+    Route::get('/rol', [RolController::class, 'index'])->name('rol.index');
+    Route::get('/rol/create', [RolController::class, 'create'])->name('rol.create');
+    Route::get('/rol/user-rol/{id}', [RolController::class, 'show'])->name('rol.show');
+    Route::post('/rol', [RolController::class, 'store'])->name('rol.store');
+    Route::get('/rol/{id}', [RolController::class, 'edit'])->name('rol.edit');
+    Route::patch('/rol/{id}', [RolController::class, 'update'])->name('rol.update');
+    Route::patch('/rol/user-rol/{id}', [RolController::class, 'updateUserRol'])->name('rol.updateUserRol');
+    Route::delete('/rol/{id}', [RolController::class, 'destroy'])->name('rol.destroy');
 });
 
 require __DIR__.'/auth.php';

@@ -2,6 +2,7 @@ import { Space, Tag, Button, Tooltip, Typography } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import collectionColors from '/resources/js/Providers/ColorProvider.js'
 import PaginatedTable  from '@/Components/PaginatedTable';
+import { Link } from '@inertiajs/react';
 
 const { Title } = Typography;
 
@@ -53,11 +54,15 @@ const columns = [
         align: 'center',
         width: '15%',
         render: (_, record) => (
-            <Space size="small">
-                <Tooltip title={'Editar'}>
-                    <Button shape='round' className="bg-[#203956]" type='primary' icon={<EditOutlined />} />
-                </Tooltip>
-            </Space>
+            <>
+                <Space size="small">
+                    <Link href={route('rol.show',record.key)}>
+                        <Tooltip title={'Editar'}>
+                            <Button shape='round' className="bg-[#203956]" type='primary' icon={<EditOutlined />} />
+                        </Tooltip>
+                    </Link>
+                </Space>
+            </>
         ),
     },
 ];

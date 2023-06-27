@@ -1,47 +1,57 @@
-import { Card, Row, Col, Button, Statistic, Modal } from 'antd';
+import { Card, Row, Col, Button, Statistic, message, Popconfirm, App } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import { UserOutlined } from '@ant-design/icons';
 import { useState } from 'react';
+import { router, Link } from '@inertiajs/react';
 
-export default function RolCard({ rol }) {
-    const [open, setOpen] = useState(false);
+const RolCard = ({ rol }) => {
 
-    const showModal = () => {
-        setOpen(true);
-    };
+    const confirm = (e) => {
+        router.delete(route('rol.destroy', rol.id), {
+            onSuccess: () => {
+                message.success('Se ha eliminado con éxito el registro');
+            }
+        });
+    }
 
-    const hideModal = () => {
-        setOpen(false);
-    };
+    const cancel = (e) => {
+        message.warning('Se canceló esa acción');
+    }
 
     return (
-        <Card size='small' title={rol.name} className='shadow-md'>
-            <Statistic title="Total de Usuarios" value={rol.users_count} prefix={<UserOutlined />} />
+        <>
+            <Card size='small' title={rol.name} className='shadow-md'>
+                <Statistic title="Total de Usuarios" value={rol.users_count} prefix={<UserOutlined />} />
 
-            <Row justify={'center'} align={'middle'} gutter={['10', '10']} className='mt-4'>
-                <Col className='mt-1'>
-                    <Button type="primary" className="bg-[#203956]" onClick={showModal}>
-                        Editar
-                    </Button>
-                    <Modal
-                        open={open}
-                        onOk={hideModal}
-                        onCancel={hideModal}
-                        okButtonProps={{ hidden: true }}
-                        cancelButtonProps={{ hidden: true }}
-                        closable={false}
-                        width={'60%'}
-                    >
-
-
-                    </Modal>
-                </Col>
-                <Col className='mt-1'>
-                    <Button type="primary" danger >
-                        Eliminar
-                    </Button>
-                </Col>
-            </Row>
-        </Card>
+                <Row justify={'center'} align={'middle'} gutter={['10', '10']} className='mt-4'>
+                    <Col className='mt-1'>
+                        <Link href={route('rol.edit',rol.id)}>
+                            <Button type="primary" className="bg-[#203956]" >
+                                Editar
+                            </Button>
+                        </Link>
+                    </Col>
+                    <Col className='mt-1'>
+                        <Popconfirm
+                            title='Eliminación del Rol'
+                            description={"¿Está seguro que desea eliminar el rol de " + rol.name + "?"}
+                            okText='Si'
+                            cancelText='No'
+                            icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                            okButtonProps={{ danger: true, size: 'middle' }}
+                            cancelButtonProps={{ size: 'middle' }}
+                            onConfirm={confirm}
+                            onCancel={cancel}
+                        >
+                            <Button type="primary" danger >
+                                Eliminar
+                            </Button>
+                        </Popconfirm>
+                    </Col>
+                </Row>
+            </Card>
+        </>
     );
+};
 
-}
+export default RolCard

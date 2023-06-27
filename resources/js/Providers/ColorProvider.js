@@ -3,7 +3,7 @@ const collectionColor = {
         ADMINISTRADOR : 'gold',
         AUXILIAR : 'green',
         GERENCIA : 'cyan',
-        PERSONAL : 'blue'
+        PERSONAL : 'purple'
     }
 }
 
