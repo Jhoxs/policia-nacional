@@ -6,7 +6,7 @@ export default defineConfig({
     server: {
         host: true,
         hmr: {
-            host: '192.168.100.89' // aquí el host con el que accedes a la app
+            host: '192.168.100.88' // aquí el host con el que accedes a la app
         }
     },
     plugins: [

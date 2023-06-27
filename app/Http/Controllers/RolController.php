@@ -9,6 +9,10 @@ use App\Models\Rol;
 use App\Models\User;
 use App\Http\Resources\RolCollection;
 use App\Http\Resources\RolUserCollection;
+use App\Http\Resources\PermissionCollection;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Redirect;
 
 
 class RolController extends Controller
@@ -21,11 +25,11 @@ class RolController extends Controller
         
         $rolList = (new Rol)->getListRoleCount();
         $userList = (new User)->roles_users_list(10);
-        logger($request->all());
+        
         return Inertia::render('Roles/Index',[ 
             'rolList' => new RolCollection($rolList), 
             'userList' => new RolUserCollection($userList)
-            ]);
+        ]);
     }
 
     /**
@@ -33,7 +37,11 @@ class RolController extends Controller
      */
     public function create()
     {
-        //
+        $permissions = (new Permission)::getPermissions();
+
+        return Inertia::render('Roles/Create',[ 
+            'permissionsList' => new PermissionCollection($permissions)
+        ]);
     }
 
     /**
@@ -41,7 +49,21 @@ class RolController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255|unique:Spatie\Permission\Models\Role,name',
+            'permission' => 'required|exists:Spatie\Permission\Models\Permission,name',
+        ],[
+            'name.required'=>'El nombre del Rol es requerido',
+            'name.unique' => 'Ya existe un rol con este nombre',
+            'permission.required' => 'Debes seleccionar al menos un permiso',
+            'permission.exists' => 'El permiso seleccionado no coincide con nuestros registros',
+        ]);
+
+        Role::create([
+            'name' => $request->name
+        ])->syncPermissions($request->permission);
+
+        return to_route('rol.index')->with('success', 'Rol agregado con éxito');
     }
 
     /**
@@ -49,16 +71,30 @@ class RolController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::select('id','name','last_name','identification')->find($id);
+        $userRol = $user->getRoleNames();
+        $rolList = Role::select('name as value','name as label')->get();
+        return Inertia::render('Roles/EditUserRol',[
+            'userInfo' => $user,
+            'rolList' => $rolList,
+            'userRol' => $userRol
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit()
+    public function edit(string $id)
     {
-        logger('entre nuevamente');
-        return Inertia::render('Roles/Rol');
+        $rol = Role::select('id','name')->find($id);
+        $permissions_rol = $rol->permissions->pluck(['name']);
+        $permissions = (new Permission)::getPermissions();
+        
+        return Inertia::render('Roles/Edit',[
+            'permissionsList' => new PermissionCollection($permissions),
+            'permissionsDefault' => $permissions_rol,
+            'rolInfo' =>  $rol
+        ]);
     }
 
     /**
@@ -66,7 +102,44 @@ class RolController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255|unique:Spatie\Permission\Models\Role,name',
+            'permission' => 'required|exists:Spatie\Permission\Models\Permission,name',
+        ],[
+            'name.required'=>'El nombre del Rol es requerido',
+            'name.unique' => 'Ya existe un rol con este nombre',
+            'permission.required' => 'Debes seleccionar al menos un permiso',
+            'permission.exists' => 'El permiso seleccionado no coincide con nuestros registros',
+        ]);
+        
+        $rol = Role::find($id);
+        $rol->update([
+            'name' => $request->name
+        ]);
+        
+        $rol->syncPermissions($request->permission);
+
+        return to_route('rol.index')->with('success', 'El rol se actualizó con éxito');
+
+    }
+
+    /**
+     * Update the specified user resource in storage.
+     */
+    public function updateUserRol(Request $request, string $id)
+    {
+        $request->validate([
+            'roles' => 'required|exists:Spatie\Permission\Models\Role,name',
+        ],[
+
+            'roles.required' => 'Debes seleccionar al menos un Rol',
+            'roles.exists' => 'El Rol seleccionado no coincide con nuestros registros',
+        ]);
+
+        $user = User::find($id);
+        $user->syncRoles($request->roles);
+        return to_route('rol.index')->with('success', 'El rol del usuario se actualizó con éxito');
+
     }
 
     /**
@@ -74,6 +147,8 @@ class RolController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $rol =  Role::find($id);
+        $rol->delete();
+        return to_route('rol.index')->with('success', 'El rol se ha eliminado con éxito');
     }
 }
