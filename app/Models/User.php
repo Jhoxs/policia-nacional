@@ -83,7 +83,7 @@ class User extends Authenticatable
     /**
      * Los usuarios y los roles a los que pertenecen.
      */
-    public function roles_users_list($pages = 20)
+    public function roles_users_list($pages = 10)
     {
         return $this->with('roles')->whereHas('roles')->paginate($pages);
     }
@@ -94,5 +94,10 @@ class User extends Authenticatable
     public function subcircuits(): BelongsToMany
     {
         return $this->belongsToMany(Subcircuit::class);
+    }
+
+    public function show_table_list($pages = 10)
+    {
+        return $this->with('blood_type')->with('rank')->with('city')->with('roles')->paginate($pages);
     }
 }

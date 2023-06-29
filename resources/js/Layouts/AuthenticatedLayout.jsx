@@ -97,9 +97,13 @@ export default function Authenticated({ user, header, title, children }) {
                                 )
                             },
                             {
-                                key: '2',
+                                key: 'user.index',
                                 icon: <UserOutlined />,
-                                label: 'Usuarios',
+                                label: (
+                                    <Link href={route('user.index')}>
+                                        Usuarios
+                                    </Link>
+                                )
                             },
                             {
                                 key: '3',
