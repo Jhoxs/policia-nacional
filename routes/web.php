@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -45,6 +46,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/rol/{id}', [RolController::class, 'update'])->name('rol.update');
     Route::patch('/rol/user-rol/{id}', [RolController::class, 'updateUserRol'])->name('rol.updateUserRol');
     Route::delete('/rol/{id}', [RolController::class, 'destroy'])->name('rol.destroy');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/user', [UserController::class, 'index'])->name('user.index');
+    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/user', [UserController::class, 'store'])->name('user.store');
+    Route::get('/user/{id}', [UserController::class, 'edit'])->name('user.edit');
+    Route::patch('/user/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 });
 
 require __DIR__.'/auth.php';
