@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VehicleController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -55,6 +56,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/{id}', [UserController::class, 'edit'])->name('user.edit');
     Route::patch('/user/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/vehicle', [VehicleController::class, 'index'])->name('vehicle.index');
+    Route::get('/vehicle/create', [VehicleController::class, 'create'])->name('vehicle.create');
+    Route::post('/vehicle', [VehicleController::class, 'store'])->name('vehicle.store');
+    Route::post('/vehicle/profile/{id}', [VehicleController::class, 'show'])->name('vehicle.show');
+    Route::get('/vehicle/{id}', [VehicleController::class, 'edit'])->name('vehicle.edit');
+    Route::patch('/vehicle/{id}', [VehicleController::class, 'update'])->name('vehicle.update');
+    Route::delete('/vehicle/{id}', [VehicleController::class, 'destroy'])->name('vehicle.destroy');
 });
 
 require __DIR__.'/auth.php';

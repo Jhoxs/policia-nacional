@@ -224,7 +224,7 @@ const Create = ({ roles, cities, blood_types, ranks }) => {
 }
 
 
-Create.layout = page => (<AuthenticatedLayout title="Crear Rol" children={page} />)
+Create.layout = page => (<AuthenticatedLayout title="Crear Usuario" children={page} />)
 
 
 export default Create

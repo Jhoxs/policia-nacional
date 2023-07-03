@@ -10,20 +10,27 @@ import RolList from './Partials/RolList';
 const Index = ({ rolList, userList }) => {
 
     const { data } = rolList;
-    
+
+    const { permissions } = usePage().props?.auth || [];
+
     return (
-        <> 
+        <>
             <div className='flex justify-end'>
-                <Link href={route('rol.create')}>
-                    <Button
-                        type="primary"
-                        size="large"
-                        className="bg-[#52c41a] hover:bg-blue-100"
-                        icon={<PlusOutlined />}
-                    >
-                        Crear Rol
-                    </Button>
-                </Link>
+                {permissions.includes('rol.create') && (
+                    <>
+                        <Link href={route('rol.create')}>
+                            <Button
+                                type="primary"
+                                size="large"
+                                className="bg-[#52c41a] hover:bg-blue-100"
+                                icon={<PlusOutlined />}
+                            >
+                                Crear Rol
+                            </Button>
+                        </Link>
+                    </>
+                )}
+
 
             </div>
 

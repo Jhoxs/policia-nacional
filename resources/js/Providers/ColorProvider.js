@@ -4,6 +4,11 @@ const collectionColor = {
         AUXILIAR : 'green',
         GERENCIA : 'cyan',
         PERSONAL : 'purple'
+    },
+    colorVehicles:{
+        CAMIONETA: 'magenta',
+        MOTOCICLETA: 'volcano',
+        AUTO: 'lime'
     }
 }
 

@@ -1,4 +1,5 @@
 import { Typography, Button, Divider, Form, Input, Checkbox, Row, Col, Space, Card, Select } from 'antd';
+import { PhoneOutlined, UserOutlined, MailOutlined, IdcardOutlined, HeartOutlined, AlertOutlined, EnvironmentOutlined, GiftOutlined } from '@ant-design/icons';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -26,6 +27,12 @@ const EditUserRol = ({ userRol, userInfo, rolList }) => {
 
     };
 
+    const gridStyle = {
+        width: '100%',
+        padding: '17px'
+
+    };
+
     return (
         <>
             <div className="flex items-center mt-2 mb-4">
@@ -36,31 +43,29 @@ const EditUserRol = ({ userRol, userInfo, rolList }) => {
             </div>
             <div className="flex justify-center mt-5'">
                 <Card className='flex justify-center shadow-md' style={{ width: '60vw' }}>
-                    <Card style={{ cursor: 'inherit' , width:'55vw'}}  hoverable={true} title={<Title className='mt-3' level={4}>Información Básica</Title>} className='mt-4 mb-10' type='inner'>
-                        <div className="flex items-center mt-2">
-                            <div className="w-2/3">
-                                <Text strong>
-                                    Nombre Completo
-                                </Text>
-                            </div>
-                            <div className="w-2/3">
-                                <Text>
-                                    {full_name}
-                                </Text>
-                            </div>
-                        </div>
-                        <div className="flex items-center mt-4 mb-2">
-                            <div className="w-2/3">
-                                <Text strong>
-                                    Identificación
-                                </Text>
-                            </div>
-                            <div className="w-2/3">
-                                <Text>
-                                    {userInfo?.identification}
-                                </Text>
-                            </div>
-                        </div>
+                    <Card style={{ cursor: 'inherit', width: '55vw' }} hoverable={false} title={<Title className='mt-3' level={4}>Información Básica</Title>} className='mt-4 mb-10' type='inner'>
+                        <Card.Grid style={gridStyle}>
+                            <Space size={20}>
+                                <IdcardOutlined style={{ fontSize: '30px' }} />
+                                <div className='sm:block'>
+                                    <div>
+                                        <Text strong>{userInfo?.identification} </Text>
+                                    </div>
+                                    <div>Identificación</div>
+                                </div>
+                            </Space>
+                        </Card.Grid>
+                        <Card.Grid style={gridStyle}>
+                            <Space size={20}>
+                                <UserOutlined style={{ fontSize: '30px' }} />
+                                <div className='sm:block'>
+                                    <div>
+                                        <Text strong>{full_name} </Text>
+                                    </div>
+                                    <div>Nombre del Usuario</div>
+                                </div>
+                            </Space>
+                        </Card.Grid>
                     </Card>
 
                     <Form

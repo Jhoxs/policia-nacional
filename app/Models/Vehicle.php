@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vehicle extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -31,7 +33,7 @@ class Vehicle extends Model
     /**
     * Obtenemos el tipo de vehiculo al que pertenece.
     */
-    public function vehicleType(): BelongsTo
+    public function vehicle_type(): BelongsTo
     {
         return $this->belongsTo(VehicleType::class);
     }
@@ -43,4 +45,10 @@ class Vehicle extends Model
     {
         return $this->belongsToMany(Subcircuit::class);
     }
+
+    public function scopeVehicleInfo($query)
+    {
+        $query->with('vehicle_type');
+    }
+
 }
