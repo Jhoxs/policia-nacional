@@ -2,30 +2,27 @@ import { Space, Tag, Button, Tooltip, Typography, Popconfirm, message, Modal, In
 import { EditOutlined, DeleteOutlined, EyeOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import collectionColors from '/resources/js/Providers/ColorProvider.js'
 import PaginatedTable from '@/Components/PaginatedTable';
-import UserPreviewInfo from './UserPreviewInfo';
+import VehiclePreviewInfo from './VehiclePreviewInfo';
 import { router, Link, usePage } from '@inertiajs/react';
 import React, { useState } from 'react';
 
 const { Title } = Typography;
 
-const { colorRoles } = collectionColors;
+const { colorVehicles } = collectionColors;
 
 
-
-
-
-export default function UsersTable({ userList }) {
+export default function VehicleTable({ modelList }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [userPreview, setUserPreview] = useState(false);
+    const [modelPreview, setModelPreview] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const [searchItemValue, setSearchItemValue] = useState({
-        value:'name',
-        label:'Nombres'
+        value: 'name',
+        label: 'Placa'
     });
     const { permissions } = usePage().props?.auth || [];
 
     const showModal = data => e => {
-        setUserPreview(data);
+        setModelPreview(data);
         setIsModalOpen(true);
     };
 
@@ -35,80 +32,71 @@ export default function UsersTable({ userList }) {
     };
 
     const confirm = data => e => {
-        router.delete(route('user.destroy', data), {
+        router.delete(route('vehicle.destroy', data), {
             onSuccess: () => {
-                message.success('Se ha eliminado el usuario con éxito');
+                message.success('Se vehículo se ha eliminado con éxito');
             }
         });
     }
-
+    
     const cancel = () => {
         message.warning('Se canceló esa acción');
     }
 
     const columns = [
         {
-            title: 'Identificación',
-            dataIndex: 'identification',
-            key: 'identification',
+            title: 'Placa',
+            dataIndex: 'plate',
+            key: 'plate',
             width: '10%',
         },
         {
-            title: 'Nombres',
-            dataIndex: 'name',
-            key: 'name',
+            title: 'Chasis',
+            dataIndex: 'chassis',
+            key: 'chassis',
             width: '12%'
         },
         {
-            title: 'Apellidos',
-            dataIndex: 'last_name',
-            key: 'last_name',
+            title: 'Marca',
+            dataIndex: 'brand',
+            key: 'brand',
             width: '12%'
         },
         {
-            title: 'Teléfono',
-            dataIndex: 'phone',
-            key: 'phone',
+            title: 'Modelo',
+            dataIndex: 'model',
+            key: 'model',
             width: '10%'
         },
         {
-            title: 'Rango',
-            dataIndex: 'rank',
-            key: 'rank',
+            title: 'Motor',
+            dataIndex: 'motor',
+            key: 'motor',
             width: '10%'
         },
         {
-            title: 'Tipo de Sangre',
-            dataIndex: 'blood_type',
-            key: 'blood_type',
+            title: 'Kilometraje',
+            dataIndex: 'mileage',
+            key: 'mileage',
             width: '12%'
         },
         {
-            title: 'Ciudad',
-            dataIndex: 'city',
-            key: 'city',
-            width: '10%'
-        },
-        {
-            title: 'Roles',
-            key: 'roles',
-            dataIndex: 'roles',
-            with: '10%',
-            render: (_, { roles }) => (
-                <>
-                    {roles.map((rol) => {
-                        let color;
+            title: 'Tipo de Vehículo',
+            dataIndex: 'vehicle_type',
+            width: '10%',
+            key: 'vehicle_type',
+            render: (_, { vehicle_type }) => {
+                let color;
+                color = colorVehicles[vehicle_type.toUpperCase()] || 'blue'
 
-                        color = colorRoles[rol.toUpperCase()] || 'blue'
-
-                        return (
-                            <Tag color={color} key={rol}>
-                                {rol.toUpperCase()}
-                            </Tag>
-                        );
-                    })}
-                </>
-            ),
+                return (
+                    <>
+                        <Tag color={color} key={vehicle_type}>
+                            {vehicle_type.toUpperCase()}
+                        </Tag>
+                    </>
+                );
+            },
         },
         {
             title: 'Acciones',
@@ -123,9 +111,9 @@ export default function UsersTable({ userList }) {
                             <Button size='small' shape='round' icon={<EyeOutlined />} onClick={showModal(record)} />
                         </Tooltip>
 
-                        {permissions.includes('user.edit') && (
+                        {permissions.includes('vehicle.edit') && (
                             <>
-                                <Link href={route('user.edit', record.key)}>
+                                <Link href={route('vehicle.edit', record.key)}>
                                     <Tooltip title={'Editar'}>
                                         <Button size='small' shape='round' className="bg-[#203956]" type='primary' icon={<EditOutlined />} />
                                     </Tooltip>
@@ -133,12 +121,12 @@ export default function UsersTable({ userList }) {
                             </>
                         )}
 
-                        {permissions.includes('user.destroy') && (
+                        {permissions.includes('vehicle.destroy') && (
                             <>
                                 <Tooltip title={'Eliminar'}>
                                     <Popconfirm
-                                        title='Eliminación del Rol'
-                                        description={"¿Está seguro que desea eliminar al usuario " + record.name + " con identificación " + record.identification + " ?"}
+                                        title='Eliminación del Vehículo'
+                                        description={"¿Está seguro que desea eliminar el vehículo con matriculta " + record.plate + " ?"}
                                         okText='Si'
                                         cancelText='No'
                                         icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
@@ -161,42 +149,42 @@ export default function UsersTable({ userList }) {
 
     const options = [
         {
-            label: 'Nombres',
-            value: 'name'
+            label: 'Placa',
+            value: 'plate'
         }, {
-            label: 'Identificación',
-            value: 'identification'
+            label: 'Chasis',
+            value: 'chassis'
         }, {
-            label: 'Roles',
-            value: 'roles'
+            label: 'Marca',
+            value: 'brand'
         }, {
-            label: 'Rangos',
-            value: 'rank'
+            label: 'Motor',
+            value: 'motor'
         }, {
-            label: 'Ciudad',
-            value: 'city'
+            label: 'Kilometraje',
+            value: 'mileage'
         }, {
-            label: 'Tipo de Sangre',
-            value: 'blood_type'
-        },{
-            label: 'Email',
-            value: 'email'
+            label: 'Capacidad de Cilindraje',
+            value: 'cylinder_capacity'
+        }, {
+            label: 'Tipo de Vehículo',
+            value: 'vehicle_type_id'
         }
     ];
 
-    const handleSeach = (value,itemValue) =>{
+    const handleSeach = (value, itemValue) => {
         const iValue = itemValue.value || itemValue;
-        router.visit(route('user.index',{value:value,key:iValue}),{
-            preserveState:true,
-            method:'get'
-        })   
+        router.visit(route('user.index', { value: value, key: iValue }), {
+            preserveState: true,
+            method: 'get'
+        })
     }
-    
+
 
     return (
         <>
             <Modal
-                style={{ top: 34 }}
+                style={{ top: 20 }}
                 open={isModalOpen}
                 closable={false}
                 onCancel={handleCancel}
@@ -206,29 +194,28 @@ export default function UsersTable({ userList }) {
                 cancelButtonProps={{
                     hidden: true,
                 }}
-            /* width={'90%'} */
             >
-                <UserPreviewInfo userPreview={userPreview} />
+                <VehiclePreviewInfo modelPreview={modelPreview} />
 
             </Modal>
 
             <div className="flex items-center mt-2 mb-4">
                 <Title level={2} ellipsis>
-                    Usuarios
+                    Vehículos
                 </Title>
                 <h1 className="flex-1 border-b-2 border-gray-100"></h1>
             </div>
 
             <div className="flex justify-end mb-3 ">
                 <Space.Compact size='large'>
-                    <Select 
-                        options={options} 
+                    <Select
+                        options={options}
                         defaultValue={options[0]}
                         onChange={value => setSearchItemValue(value)}
                     />
-                    <Input.Search 
+                    <Input.Search
                         value={searchValue}
-                        onChange={ e => setSearchValue(e.target.value)}
+                        onChange={e => setSearchValue(e.target.value)}
                         onSearch={value => handleSeach(value, searchItemValue)}
                     />
                 </Space.Compact>
@@ -236,7 +223,7 @@ export default function UsersTable({ userList }) {
 
             <PaginatedTable
                 columns={columns}
-                dataTable={userList}
+                dataTable={modelList}
             ></PaginatedTable>
         </>
     );

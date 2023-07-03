@@ -2,9 +2,9 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Button, message } from 'antd';
 import { Link, usePage } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import UsersTable from './Partials/UsersTable';
+import VehicleTable from './Partials/VehicleTable';
 
-const Index = ({ usersData }) => {
+const Index = ({ modelData }) => {
 
     const { permissions } = usePage().props?.auth || [];
 
@@ -12,16 +12,16 @@ const Index = ({ usersData }) => {
         <>
             <div className='flex justify-end'>
                 {
-                    permissions.includes('user.create') && (
+                    permissions.includes('vehicle.create') && (
                         <>
-                            <Link href={route('user.create')}>
+                            <Link href={route('vehicle.create')}>
                                 <Button
                                     type="primary"
                                     size="large"
                                     className="bg-[#52c41a] hover:bg-blue-100"
                                     icon={<PlusOutlined />}
                                 >
-                                    Crear Usuario
+                                    Crear Vehículo
                                 </Button>
                             </Link>
                         </>
@@ -31,16 +31,16 @@ const Index = ({ usersData }) => {
             </div>
 
             <div className="mt-12 ">
-                <UsersTable
-                    userList={usersData}
-                ></UsersTable>
+                <VehicleTable
+                    modelList={modelData}
+                ></VehicleTable>
             </div>
         </>
 
     );
 }
 
-Index.layout = page => (<AuthenticatedLayout title="Usuarios" children={page} />)
+Index.layout = page => (<AuthenticatedLayout title="Vehículos" children={page} />)
 
 
 export default Index

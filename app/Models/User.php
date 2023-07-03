@@ -56,6 +56,19 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    protected $appends = [
+        'full_name'
+    ];
+
+    /**
+     * Obtenemos el nombre completo.
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->name.' '.$this->last_name;
+    }
+
+
     /**
      * Obtenemos el tipo de sangre al que pertenece un usuario.
      */
@@ -99,5 +112,32 @@ class User extends Authenticatable
     public function show_table_list($pages = 10)
     {
         return $this->with('blood_type')->with('rank')->with('city')->with('roles')->paginate($pages);
+    }
+
+    public function show_user_info($id)
+    {
+        return $this->with('blood_type')->with('rank')->with('city')->with('roles')->where('id',$id)->first();
+    }
+
+    public function scopeUserInfo($query)
+    {
+        $query->with('blood_type')->with('rank')->with('city')->with('roles');
+    }
+
+    public function scopeSearchBar($query, $filters)
+    {
+        $query->when($filters['value'] && $filters['key'] , function($query) use ($filters) {
+            if(in_array($filters['key'],['identification','email'])){
+                $query->where($filters['key'],'like','%'.$filters['value'].'%');
+            }else if($filters['key'] == 'name'){
+                $query->where('name','like','%'.$filters['value'].'%')
+                        ->orWhere('last_name','like','%'.$filters['value'].'%');
+            }
+            else{
+                $query->whereHas($filters['key'], function($query) use ($filters){
+                    $query->where('name','like','%'.$filters['value'].'%');
+                });
+            }
+        });
     }
 }

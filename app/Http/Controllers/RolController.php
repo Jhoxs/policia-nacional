@@ -13,10 +13,22 @@ use App\Http\Resources\PermissionCollection;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Redirect;
-
+use Illuminate\Validation\Rule;
 
 class RolController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:rol.index')->only('index');
+        $this->middleware('can:rol.create')->only('create');
+        $this->middleware('can:rol.store')->only('store');
+        $this->middleware('can:rol.show')->only('show');
+        $this->middleware('can:rol.edit')->only('edit');
+        $this->middleware('can:rol.update')->only('update');
+        $this->middleware('can:rol.destroy')->only('destroy');
+        $this->middleware('can:rol.updateUserRol')->only('updateUserRol');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -102,9 +114,12 @@ class RolController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
+        $rol = Role::find($id);
+
         $request->validate([
-            'name' => 'required|string|max:255|unique:Spatie\Permission\Models\Role,name',
-            'permission' => 'required|exists:Spatie\Permission\Models\Permission,name',
+            'name' => ['required','string','max:255',Rule::unique('roles','name')->ignore($rol->id)],
+            'permission' => ['required','exists:Spatie\Permission\Models\Permission,name'],
         ],[
             'name.required'=>'El nombre del Rol es requerido',
             'name.unique' => 'Ya existe un rol con este nombre',
@@ -112,7 +127,7 @@ class RolController extends Controller
             'permission.exists' => 'El permiso seleccionado no coincide con nuestros registros',
         ]);
         
-        $rol = Role::find($id);
+        
         $rol->update([
             'name' => $request->name
         ]);

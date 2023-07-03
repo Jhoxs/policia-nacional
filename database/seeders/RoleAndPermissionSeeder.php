@@ -33,18 +33,54 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::updateOrCreate([
             'name' => 'dashboard.index'
         ])->syncRoles([$admin,$auxiliar,$gerencia,$personal]);
+
+        //PERMISOS PARA USUARIOS
         Permission::updateOrCreate([
-            'name' => 'users.index'
+            'name' => 'user.index'
         ])->syncRoles([$admin]);
         Permission::updateOrCreate([
-            'name' => 'users.create'
+            'name' => 'user.create'
         ])->syncRoles([$admin]);
         Permission::updateOrCreate([
-            'name' => 'users.edit'
+            'name' => 'user.store'
         ])->syncRoles([$admin]);
         Permission::updateOrCreate([
-            'name' => 'users.destroy'
+            'name' => 'user.show'
         ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'user.edit'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'user.update'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'user.destroy'
+        ])->syncRoles([$admin]);
+
+        //PERMISOS PARA VEHICULOS
+        Permission::updateOrCreate([
+            'name' => 'vehicle.index'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'vehicle.create'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'vehicle.store'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'vehicle.show'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'vehicle.edit'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'vehicle.update'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'vehicle.destroy'
+        ])->syncRoles([$admin]);
+
+        //PERMISOS PARA LOS ROLES
         Permission::updateOrCreate([
             'name' => 'rol.index'
         ])->syncRoles([$admin]);
@@ -78,7 +114,9 @@ class RoleAndPermissionSeeder extends Seeder
         $user->assignRole('Auxiliar');
         $user = User::find(3);
         $user->assignRole('Gerencia');
-        $user = User::find(4);
-        $user->assignRole('Personal');
+        $users = User::where('id','>',3)->get();
+        foreach($users as $u){
+            $u->assignRole('Personal');
+        }
     }
 }

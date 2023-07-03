@@ -38,6 +38,50 @@ export default function Authenticated({ user, header, title, children }) {
     const { auth } = usePage().props
     const [collapsed, setCollapsed] = useState(false);
 
+    const permissions = auth.permissions || [];
+
+
+    const menuItems = [
+        {
+            key: 'dashboard.index',
+            icon: <HomeOutlined />,
+            label: (
+                <Link href={route('dashboard.index')}>
+                    Página de Inicio
+                </Link>
+            )
+        },
+        {
+            key: 'user.index',
+            icon: <UserOutlined />,
+            label: (
+                <Link href={route('user.index')}>
+                    Usuarios
+                </Link>
+            )
+        },
+        {
+            key: 'vehicle.index',
+            icon: <CarOutlined />,
+            label: (
+                <Link href={route('vehicle.index')}>
+                    Vehículos
+                </Link>
+            ),
+        },
+        {
+            key: 'rol.index',
+            icon: <LockOutlined />,
+            label: (
+                <Link href={route('rol.index')}>
+                    Roles
+                </Link>
+            ),
+        },
+    ];
+
+    const filteredMenuItems = menuItems.filter( item => permissions.includes(item.key));
+
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -86,40 +130,7 @@ export default function Authenticated({ user, header, title, children }) {
                         mode="inline"
                         defaultSelectedKeys={[route().current()]}
                         style={{ backgroundColor: '#154986' }}
-                        items={[
-                            {
-                                key: 'dashboard.index',
-                                icon: <HomeOutlined />,
-                                label: (
-                                    <Link href={route('dashboard.index')}>
-                                        Página de Inicio
-                                    </Link>
-                                )
-                            },
-                            {
-                                key: 'user.index',
-                                icon: <UserOutlined />,
-                                label: (
-                                    <Link href={route('user.index')}>
-                                        Usuarios
-                                    </Link>
-                                )
-                            },
-                            {
-                                key: '3',
-                                icon: <CarOutlined />,
-                                label: 'Vehículos',
-                            },
-                            {
-                                key: 'rol.index',
-                                icon: <LockOutlined />,
-                                label: (
-                                    <Link href={route('rol.index')}>
-                                        Roles
-                                    </Link>
-                                ),
-                            },
-                        ]}
+                        items={filteredMenuItems}
                     />
                 </Sider>
 

@@ -1,75 +1,81 @@
 import { Space, Tag, Button, Tooltip, Typography } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import collectionColors from '/resources/js/Providers/ColorProvider.js'
-import PaginatedTable  from '@/Components/PaginatedTable';
-import { Link } from '@inertiajs/react';
+import PaginatedTable from '@/Components/PaginatedTable';
+import { usePage, Link } from '@inertiajs/react';
 
 const { Title } = Typography;
 
 const { colorRoles } = collectionColors;
 
-const columns = [
-    {
-        title: 'Identificación',
-        dataIndex: 'identification',
-        key: 'identification',
-        width: '10%',
-    },
-    {
-        title: 'Nombres',
-        dataIndex: 'name',
-        key: 'name',
-        width: '20%'
-    },
-    {
-        title: 'Apellidos',
-        dataIndex: 'last_name',
-        key: 'last_name',
-        width: '20%'
-    },
-    {
-        title: 'Roles',
-        key: 'roles',
-        dataIndex: 'roles',
-        with: '35%',
-        render: (_, { roles }) => (
-            <>
-                {roles.map((rol) => {
-                    let color;
-
-                    color = colorRoles[rol.toUpperCase()] || 'blue'
-
-                    return (
-                        <Tag color={color} key={rol}>
-                            {rol.toUpperCase()}
-                        </Tag>
-                    );
-                })}
-            </>
-        ),
-    },
-    {
-        title: 'Acciones',
-        key: 'action',
-        align: 'center',
-        width: '15%',
-        render: (_, record) => (
-            <>
-                <Space size="small">
-                    <Link href={route('rol.show',record.key)}>
-                        <Tooltip title={'Editar'}>
-                            <Button shape='round' className="bg-[#203956]" type='primary' icon={<EditOutlined />} />
-                        </Tooltip>
-                    </Link>
-                </Space>
-            </>
-        ),
-    },
-];
-
-
-
 export default function RolWithUser({ userList }) {
+
+    const { permissions } = usePage().props?.auth || [];
+    const canEdit = permissions.includes('rol.updateUserRol');
+
+    const columns = [
+        {
+            title: 'Identificación',
+            dataIndex: 'identification',
+            key: 'identification',
+            width: '10%',
+        },
+        {
+            title: 'Nombres',
+            dataIndex: 'name',
+            key: 'name',
+            width: '20%'
+        },
+        {
+            title: 'Apellidos',
+            dataIndex: 'last_name',
+            key: 'last_name',
+            width: '20%'
+        },
+        {
+            title: 'Roles',
+            key: 'roles',
+            dataIndex: 'roles',
+            with: '35%',
+            render: (_, { roles }) => (
+                <>
+                    {roles.map((rol) => {
+                        let color;
+
+                        color = colorRoles[rol.toUpperCase()] || 'blue'
+
+                        return (
+                            <Tag color={color} key={rol}>
+                                {rol.toUpperCase()}
+                            </Tag>
+                        );
+                    })}
+                </>
+            ),
+        },
+        {
+            title: 'Acciones',
+            key: 'action',
+            align: 'center',
+            width: '15%',
+            render: (_, record) => (
+                <>
+                    <Space size="small">
+                        {canEdit && (
+                            <>
+                                <Link href={route('rol.show', record.key)}>
+                                    <Tooltip title={'Editar'}>
+                                        <Button shape='round' className="bg-[#203956]" type='primary' icon={<EditOutlined />} />
+                                    </Tooltip>
+                                </Link>
+                            </>
+                        )}
+
+                    </Space>
+                </>
+            ),
+        },
+    ];
 
     return (
         <>
