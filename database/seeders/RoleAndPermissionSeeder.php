@@ -105,7 +105,118 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::updateOrCreate([
             'name' => 'rol.updateUserRol'
         ])->syncRoles([$admin]);
+
+        //PERMISOS PARA SUBCIRCUITOS
+        Permission::updateOrCreate([
+            'name' => 'dependence.index'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'subcircuit.index'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'subcircuit.create'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'subcircuit.store'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'subcircuit.edit'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'subcircuit.destroy'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'subcircuit.show'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'subcircuit.update'
+        ])->syncRoles([$admin]);
         
+        //PERMISOS PARA CIRCUITOS
+        Permission::updateOrCreate([
+            'name' => 'circuit.index'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'circuit.create'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'circuit.store'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'circuit.edit'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'circuit.destroy'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'circuit.show'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'circuit.update'
+        ])->syncRoles([$admin]);
+
+        //PERMISOS PARA PARROQUIAS
+        Permission::updateOrCreate([
+            'name' => 'parish.index'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'parish.create'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'parish.store'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'parish.edit'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'parish.destroy'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'parish.update'
+        ])->syncRoles([$admin]);
+        
+        //PERMISOS PARA CIUDADES
+        Permission::updateOrCreate([
+            'name' => 'city.index'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'city.create'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'city.store'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'city.edit'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'city.destroy'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'city.update'
+        ])->syncRoles([$admin]);
+        
+        //PERMISOS PARA PROVINCIAS
+        Permission::updateOrCreate([
+            'name' => 'province.index'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'province.create'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'province.store'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'province.edit'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'province.destroy'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'province.update'
+        ])->syncRoles([$admin]);
+        
+        
+
 
         //Asignamos el rol por defecto al administrador
         $user = User::find(1);

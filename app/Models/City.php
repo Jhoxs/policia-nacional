@@ -33,7 +33,8 @@ class City extends Model
      */
     protected $fillable = [
         'name',
-        'display_name'
+        'display_name',
+        'province_id'
     ];
 
     /**
@@ -56,6 +57,19 @@ class City extends Model
         // Evento después de actualizar un registro
         static::deleted(function ($model) {
             $model->removeMenuFromCache();
+        });
+
+        //Evento cuando se está eliminando
+        static::deleting(function ($model) {
+
+            $model->parishes()->each(function ($parish) {
+                $parish->circuits()->each(function ($circuit) {
+                    $circuit->subcircuits()->delete();
+                });
+                $parish->circuits()->delete();
+            });
+        
+            $model->parishes()->delete();
         });
     }
 
@@ -81,5 +95,23 @@ class City extends Model
     public function province(): BelongsTo
     {
         return $this->belongsTo(Province::class);
+    }
+
+    public function scopeWithDep($query)
+    {
+        $query->with('province');
+    }
+
+    public function scopeSearchBar($query, $filters)
+    {
+        $query->when(isset($filters['value']) && $filters['key'] , function($query) use ($filters) {
+            if($filters['key'] == 'province'){
+                $query->whereHas('province', function($query) use ($filters){
+                    $query->where('display_name','like','%'.$filters['value'].'%');
+                });
+            }else{
+                $query->where('display_name','like','%'.$filters['value'].'%');
+            }
+        });
     }
 }

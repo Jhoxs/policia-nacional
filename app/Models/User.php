@@ -126,7 +126,7 @@ class User extends Authenticatable
 
     public function scopeSearchBar($query, $filters)
     {
-        $query->when($filters['value'] && $filters['key'] , function($query) use ($filters) {
+        $query->when(isset($filters['value']) && $filters['key'] , function($query) use ($filters) {
             if(in_array($filters['key'],['identification','email'])){
                 $query->where($filters['key'],'like','%'.$filters['value'].'%');
             }else if($filters['key'] == 'name'){

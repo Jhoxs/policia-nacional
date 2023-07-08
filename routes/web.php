@@ -4,6 +4,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\SubcircuitController;
+use App\Http\Controllers\CircuitController;
+use App\Http\Controllers\ParishController;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\ProvinceController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -67,5 +72,51 @@ Route::middleware('auth')->group(function () {
     Route::patch('/vehicle/{id}', [VehicleController::class, 'update'])->name('vehicle.update');
     Route::delete('/vehicle/{id}', [VehicleController::class, 'destroy'])->name('vehicle.destroy');
 });
+//Subcircuit
+Route::middleware('auth')->group(function () {
+    Route::get('/subcircuit', [SubcircuitController::class, 'index'])->name('subcircuit.index');
+    Route::get('/subcircuit/create', [SubcircuitController::class, 'create'])->name('subcircuit.create');
+    Route::post('/subcircuit', [SubcircuitController::class, 'store'])->name('subcircuit.store');
+    Route::get('/subcircuit/{id}', [SubcircuitController::class, 'edit'])->name('subcircuit.edit');
+    Route::patch('/subcircuit/{id}', [SubcircuitController::class, 'update'])->name('subcircuit.update');
+    Route::delete('/subcircuit/{id}', [SubcircuitController::class, 'destroy'])->name('subcircuit.destroy');
+});
+//Circuit
+Route::middleware('auth')->group(function () {
+    Route::get('/circuit', [CircuitController::class, 'index'])->name('circuit.index');
+    Route::get('/circuit/create', [CircuitController::class, 'create'])->name('circuit.create');
+    Route::post('/circuit', [CircuitController::class, 'store'])->name('circuit.store');
+    Route::get('/circuit/{id}', [CircuitController::class, 'edit'])->name('circuit.edit');
+    Route::patch('/circuit/{id}', [CircuitController::class, 'update'])->name('circuit.update');
+    Route::delete('/circuit/{id}', [CircuitController::class, 'destroy'])->name('circuit.destroy');
+});
+//Parish
+Route::middleware('auth')->group(function () {
+    Route::get('/parish', [ParishController::class, 'index'])->name('parish.index');
+    Route::get('/parish/create', [ParishController::class, 'create'])->name('parish.create');
+    Route::post('/parish', [ParishController::class, 'store'])->name('parish.store');
+    Route::get('/parish/{id}', [ParishController::class, 'edit'])->name('parish.edit');
+    Route::patch('/parish/{id}', [ParishController::class, 'update'])->name('parish.update');
+    Route::delete('/parish/{id}', [ParishController::class, 'destroy'])->name('parish.destroy');
+});
+//City
+Route::middleware('auth')->group(function () {
+    Route::get('/city', [CityController::class, 'index'])->name('city.index');
+    Route::get('/city/create', [CityController::class, 'create'])->name('city.create');
+    Route::post('/city', [CityController::class, 'store'])->name('city.store');
+    Route::get('/city/{id}', [CityController::class, 'edit'])->name('city.edit');
+    Route::patch('/city/{id}', [CityController::class, 'update'])->name('city.update');
+    Route::delete('/city/{id}', [CityController::class, 'destroy'])->name('city.destroy');
+});
+//Province
+Route::middleware('auth')->group(function () {
+    Route::get('/province', [ProvinceController::class, 'index'])->name('province.index');
+    Route::get('/province/create', [ProvinceController::class, 'create'])->name('province.create');
+    Route::post('/province', [ProvinceController::class, 'store'])->name('province.store');
+    Route::get('/province/{id}', [ProvinceController::class, 'edit'])->name('province.edit');
+    Route::patch('/province/{id}', [ProvinceController::class, 'update'])->name('province.update');
+    Route::delete('/province/{id}', [ProvinceController::class, 'destroy'])->name('province.destroy');
+});
+
 
 require __DIR__.'/auth.php';
