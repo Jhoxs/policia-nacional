@@ -12,7 +12,7 @@ export default function PaginatedTable({ dataTable, columns }) {
             total: meta.total,
             pageSize: meta.per_page,
             current: meta.current_page,
-            showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} Usuarios`
+            showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} Datos`
         },
         filters: {},
         loading: false

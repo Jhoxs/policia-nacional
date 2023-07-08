@@ -16,7 +16,7 @@ export default function VehicleTable({ modelList }) {
     const [modelPreview, setModelPreview] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const [searchItemValue, setSearchItemValue] = useState({
-        value: 'name',
+        value: 'plate',
         label: 'Placa'
     });
     const { permissions } = usePage().props?.auth || [];
@@ -168,13 +168,13 @@ export default function VehicleTable({ modelList }) {
             value: 'cylinder_capacity'
         }, {
             label: 'Tipo de Vehículo',
-            value: 'vehicle_type_id'
+            value: 'vehicle_type'
         }
     ];
 
     const handleSeach = (value, itemValue) => {
         const iValue = itemValue.value || itemValue;
-        router.visit(route('user.index', { value: value, key: iValue }), {
+        router.visit(route('vehicle.index', { value: value, key: iValue }), {
             preserveState: true,
             method: 'get'
         })

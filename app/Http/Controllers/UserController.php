@@ -41,7 +41,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {    
-        $usersData = (new User)->userInfo()->SearchBar(Rq::all('value','key'))->paginate(10);
+        $usersData = (new User)->userInfo()->SearchBar(Rq::only('value','key'))->paginate(10)->appends(Rq::all());
 
         return Inertia::render('Users/Index',[ 
             'usersData' => new UserCollection($usersData)

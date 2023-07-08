@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Head, Link, usePage } from '@inertiajs/react';
-import { MenuFoldOutlined, MenuUnfoldOutlined, UploadOutlined, UserOutlined, CarOutlined, HomeOutlined, LockOutlined, LogoutOutlined, CaretDownOutlined } from '@ant-design/icons';
+import { MenuFoldOutlined, MenuUnfoldOutlined, UploadOutlined, UserOutlined, CarOutlined, HomeOutlined, LockOutlined, LogoutOutlined, CaretDownOutlined, EnvironmentOutlined } from '@ant-design/icons';
 import { Layout, Menu, Button, Col, theme, Row, Dropdown, Space, Typography, Avatar, Grid } from 'antd';
 import CustomAvatar from '@/Components/CustomAvatar';
 import FlashMessage from '@/Components/FlashMessage';
@@ -39,7 +39,51 @@ export default function Authenticated({ user, header, title, children }) {
     const [collapsed, setCollapsed] = useState(false);
 
     const permissions = auth.permissions || [];
+   
+    const childDependece = [
+        {
+            key: 'province.index',
+            label: (
+                <Link href={route('province.index')}>
+                    Provincias
+                </Link>
+            ),
+        },
+        {
+            key: 'city.index',
+            label: (
+                <Link href={route('city.index')}>
+                    Ciudades
+                </Link>
+            ),
+        },
+        {
+            key: 'parish.index',
+            label: (
+                <Link href={route('parish.index')}>
+                    Parroquias
+                </Link>
+            ),
+        },
+        {
+            key: 'circuit.index',
+            label: (
+                <Link href={route('circuit.index')}>
+                    Circuitos
+                </Link>
+            ),
+        },
+        {
+            key: 'subcircuit.index',
+            label: (
+                <Link href={route('subcircuit.index')}>
+                    Subcircuitos
+                </Link>
+            ),
+        },
+    ]
 
+    const fChildDependece = childDependece.filter(item => permissions.includes(item.key));
 
     const menuItems = [
         {
@@ -70,6 +114,17 @@ export default function Authenticated({ user, header, title, children }) {
             ),
         },
         {
+            key: 'dependence.index',
+            icon: <EnvironmentOutlined />,
+            label: (
+                <>
+                    Dependencias
+                </>
+                
+            ),
+            children:fChildDependece
+        },
+        {
             key: 'rol.index',
             icon: <LockOutlined />,
             label: (
@@ -80,7 +135,7 @@ export default function Authenticated({ user, header, title, children }) {
         },
     ];
 
-    const filteredMenuItems = menuItems.filter( item => permissions.includes(item.key));
+    const filteredMenuItems = menuItems.filter(item => permissions.includes(item.key));
 
     const {
         token: { colorBgContainer },
@@ -89,6 +144,13 @@ export default function Authenticated({ user, header, title, children }) {
     const siderStyle = {
         /*  backgroundColor: 'white', */
         backgroundColor: '#154986',
+        overflow: 'auto',
+        height: '100vh',
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        bottom: 0,
+
     };
 
     const footerStyle = {
@@ -97,12 +159,26 @@ export default function Authenticated({ user, header, title, children }) {
         backgroundColor: '#f5f5f5',
         height: '1.5rem'
     };
-    
+
+    const headerStyle = {
+        padding: 0,
+        background: colorBgContainer
+    }
+
+    const contetStyle = {
+        margin: '12px 8px',
+        overflow: 'initial',
+        padding: 24,
+        minHeight: '88vh',
+        background: colorBgContainer,
+        borderRadius: '12px'
+    }
+
 
     return (
         <>
-            <Layout className='min-h-screen app-layout'>
-                <Head title={title}/>
+            <Layout>
+                <Head title={title} />
                 <Sider
                     trigger={null}
                     collapsible
@@ -112,6 +188,7 @@ export default function Authenticated({ user, header, title, children }) {
                     onBreakpoint={(broken) => {
                         setCollapsed(broken);
                     }}
+                    className='z-1'
                 >
                     <div className="flex flex-col justify-center items-center shadow-xl bg-[#203956] mb-5 w-full rounded-b-[12px]">
 
@@ -127,15 +204,15 @@ export default function Authenticated({ user, header, title, children }) {
                     </div>
                     <Menu
                         theme="dark"
-                        mode="inline"
+                        mode="vertical"
                         defaultSelectedKeys={[route().current()]}
                         style={{ backgroundColor: '#154986' }}
                         items={filteredMenuItems}
                     />
                 </Sider>
 
-                <Layout className="site-layout">
-                    <Header style={{ padding: 0, background: colorBgContainer }} className='shadow-lg'>
+                <Layout className="site-layout" style={!collapsed?{marginLeft: 200 }:{marginLeft: 76 }}>
+                    <Header style={headerStyle} className='shadow-lg'>
                         <Row justify='space-between'>
                             <Col>
                                 <Button
@@ -170,20 +247,14 @@ export default function Authenticated({ user, header, title, children }) {
                             </Col>
                         </Row>
                     </Header>
-                            
+
                     <Content
-                        style={{
-                            margin: '12px 8px',
-                            padding: 24,
-                            minHeight: 280,
-                            background: colorBgContainer,
-                            borderRadius: '12px'
-                        }}
+                        style={contetStyle}
                     >
                         <div className='fixed top-0 left-[40%] z-1 transition translate-y-4'>
-                            <FlashMessage/>
+                            <FlashMessage />
                         </div>
-                        
+
                         {children}
                     </Content>
                     {/* <Footer style={footerStyle}> Author José Hernández</Footer> */}

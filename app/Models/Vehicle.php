@@ -51,4 +51,18 @@ class Vehicle extends Model
         $query->with('vehicle_type');
     }
 
+    public function scopeSearchBar($query, $filters)
+    {
+        $query->when(isset($filters['value']) && $filters['key'] , function($query) use ($filters) {
+            if($filters['key'] == 'vehicle_type'){
+                $query->whereHas($filters['key'], function($query) use ($filters){
+                    $query->where('name','like','%'.$filters['value'].'%');
+                });
+            }else{
+                $query->where($filters['key'],'like','%'.$filters['value'].'%');
+                
+            }
+        });
+    }
+
 }

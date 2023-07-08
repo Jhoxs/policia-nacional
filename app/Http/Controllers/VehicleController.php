@@ -34,7 +34,7 @@ class VehicleController extends Controller
      */
     public function index(Request $request)
     {
-        $vehicleData = (new Vehicle)->vehicleInfo()->paginate(10);
+        $vehicleData = (new Vehicle)->vehicleInfo()->searchBar(Rq::only('key','value'))->paginate(10)->appends(Rq::all());
 
         return Inertia::render('Vehicles/Index',[
             'modelData' => new VehicleCollection($vehicleData)

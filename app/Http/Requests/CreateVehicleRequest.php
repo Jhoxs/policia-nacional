@@ -25,7 +25,7 @@ class CreateVehicleRequest extends FormRequest
             'chassis' => trim($this->chassis),
             'plate' => trim(strtoupper($this->plate)),
             'motor' => trim($this->motor),
-            'model' => trim($this->model),
+            'model' => trim(strtoupper($this->model)),
             'brand' => trim(strtoupper($this->brand)),
         ]);
     }
