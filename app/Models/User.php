@@ -109,6 +109,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Subcircuit::class);
     }
 
+    /**
+     * Los usuarios a los que pertenece un vehiculo.
+     */
+    public function vehicles(): BelongsToMany
+    {
+        return $this->belongsToMany(Vehicle::class);
+    }
+
+    
+
     public function show_table_list($pages = 10)
     {
         return $this->with('blood_type')->with('rank')->with('city')->with('roles')->paginate($pages);
@@ -119,9 +129,36 @@ class User extends Authenticatable
         return $this->with('blood_type')->with('rank')->with('city')->with('roles')->where('id',$id)->first();
     }
 
+    public function scopeWithSubc($query)
+    {
+        $query->with('subcircuits');
+    }
+
+    public function scopeSameCity($query,$cities)
+    {
+        $query->whereHas('subcircuits.circuit.parish.city', function ($query) use ($cities) {
+            $query->where('id', $cities);
+        });
+    }
+
+    public function scopeHaveSubc($query)
+    {
+        $query->whereHas('subcircuits');
+    }
+
+    public function scopeNotSubc($query)
+    {
+        $query->whereDoesntHave('subcircuits');
+    }
+
+    public function scopeNotVehicle($query)
+    {
+        $query->whereDoesntHave('vehicles');
+    }
+
     public function scopeUserInfo($query)
     {
-        $query->with('blood_type')->with('rank')->with('city')->with('roles');
+        $query->with(['blood_type','rank','city','roles','subcircuits']);
     }
 
     public function scopeSearchBar($query, $filters)
@@ -137,6 +174,12 @@ class User extends Authenticatable
                 $query->whereHas($filters['key'], function($query) use ($filters){
                     $query->where('name','like','%'.$filters['value'].'%');
                 });
+            }
+        })->when($filters['filter'] ?? null, function($query, $filter){
+            if($filter == 'conSub'){
+                $query->haveSubc();
+            }elseif($filter == 'sinSub'){
+                $query->notSubc();
             }
         });
     }

@@ -16,7 +16,6 @@ class CityResource extends JsonResource
     {
         return [
             'key' => $this->id,
-            'code' => $this->code,
             'display_name' => $this->display_name,
             'name' => $this->name,
             'dependences' => [

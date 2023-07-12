@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Vehicle extends Model
 {
@@ -46,9 +47,47 @@ class Vehicle extends Model
         return $this->belongsToMany(Subcircuit::class);
     }
 
+    /**
+     * Los usuarios a los que pertenecen un vehiculo.
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
+    }
+
     public function scopeVehicleInfo($query)
     {
-        $query->with('vehicle_type');
+        $query->with(['vehicle_type','subcircuits','users']);
+    }
+
+    public function scopeWithSubc($query)
+    {
+        $query->with('subcircuits');
+    }
+
+    public function scopeWithCity($query)
+    {
+        $query->with('subcircuits.circuit.parish.city.province');
+    }
+
+    public function scopeHaveSubc($query)
+    {
+        $query->whereHas('subcircuits');
+    }
+
+    public function scopeNotSubc($query)
+    {
+        $query->whereDoesntHave('subcircuits');
+    }
+    
+    public function scopeHaveUser($query)
+    {
+        $query->whereHas('users');
+    }
+
+    public function scopeNotUser($query)
+    {
+        $query->whereDoesntHave('users');
     }
 
     public function scopeSearchBar($query, $filters)
@@ -61,6 +100,16 @@ class Vehicle extends Model
             }else{
                 $query->where($filters['key'],'like','%'.$filters['value'].'%');
                 
+            }
+        })->when($filters['filter'] ?? null, function($query, $filter){
+            if($filter == 'conSub'){
+                $query->haveSubc();
+            }elseif($filter == 'sinSub'){
+                $query->notSubc();
+            }elseif($filter == 'conUsr'){
+                $query->haveUser();
+            }elseif($filter == 'sinUsr'){
+                $query->notUser();
             }
         });
     }

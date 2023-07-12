@@ -17,6 +17,14 @@ trait ItemsCache{
     }
 
     /**
+     * Eliminamos el cache con el nombre del modelo
+     */
+    protected function removeMenuFromCacheByModelName($customModelName)
+    {
+        Cache::forget('pn_admin_'.$customModelName);
+    }
+
+    /**
      * Mostramos la opciones en un arreglo de objetos {value:'',label:''}.
      * @return object
      */
@@ -27,7 +35,7 @@ trait ItemsCache{
         });
 
         if (!isset($data_formatted) || $data_formatted->isEmpty()) {
-            return false;
+            return static::select('id as value','display_name as label')->get();
         }
 
         return $data_formatted;

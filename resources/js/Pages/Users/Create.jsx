@@ -192,7 +192,6 @@ const Create = ({ roles, cities, blood_types, ranks }) => {
                             <Col>
                                 <Link href={route('user.index')}>
                                     <Button
-                                        loading={processing}
                                         size="large"
                                         className="mt-5 shadow-md"
                                     >

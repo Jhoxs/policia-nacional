@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Carbon\Carbon;
  
-class VehicleResource extends JsonResource
+class UserVehicleResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,6 +15,9 @@ class VehicleResource extends JsonResource
      */
     public function toArray(Request $request)
     {
+        $subcircuit = $this->subcircuits->first();
+        $user_list = $this->users->pluck('identification');
+
         return [
             'key' => $this->id,
             'plate' => $this->plate,
@@ -28,7 +31,11 @@ class VehicleResource extends JsonResource
             'loading_capacity' => $this->loading_capacity,
             'passenger_capacity' => $this->passenger_capacity,
             'vehicle_type' => $this->vehicle_type_id,
-            'vehicle_type_name' => $this->vehicle_type->display_name
+            'vehicle_type_name' => $this->vehicle_type->display_name,
+            'subcirtuit' => $subcircuit->display_name ?? null,
+            'cities' => isset($subcircuit)  ? $subcircuit->circuit->parish->city->display_name : null,
+            'users' => $this->users ?? [],
+            'user_list' => $user_list ?? []
         ];
         
     }

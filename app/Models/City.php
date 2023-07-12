@@ -47,28 +47,39 @@ class City extends Model
         // Evento después de crear un registro
         static::created(function ($model) {
             $model->removeMenuFromCache();
+            $model->removeMenuFromCacheByModelName(class_basename(Parish::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Circuit::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Subcircuit::class));
         });
 
         // Evento después de actualizar un registro
         static::updated(function ($model) {
             $model->removeMenuFromCache();
+            $model->removeMenuFromCacheByModelName(class_basename(Parish::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Circuit::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Subcircuit::class));
         });
 
         // Evento después de actualizar un registro
         static::deleted(function ($model) {
             $model->removeMenuFromCache();
+            $model->removeMenuFromCacheByModelName(class_basename(Parish::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Circuit::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Subcircuit::class));
         });
 
         //Evento cuando se está eliminando
         static::deleting(function ($model) {
-
             $model->parishes()->each(function ($parish) {
                 $parish->circuits()->each(function ($circuit) {
                     $circuit->subcircuits()->delete();
                 });
                 $parish->circuits()->delete();
             });
-        
+            
+            $model->users()->update([
+                'city_id' => null
+            ]);
             $model->parishes()->delete();
         });
     }

@@ -28,20 +28,47 @@ class Province extends Model
         // Evento después de crear un registro
         static::created(function ($model) {
             $model->removeMenuFromCache();
+            $model->removeMenuFromCacheByModelName(class_basename(City::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Parish::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Circuit::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Subcircuit::class));
         });
 
         // Evento después de actualizar un registro
         static::updated(function ($model) {
             $model->removeMenuFromCache();
+            $model->removeMenuFromCacheByModelName(class_basename(City::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Parish::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Circuit::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Subcircuit::class));
         });
 
         // Evento después de actualizar un registro
         static::deleted(function ($model) {
             $model->removeMenuFromCache();
+            $model->removeMenuFromCacheByModelName(class_basename(City::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Parish::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Circuit::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Subcircuit::class));
         });
 
         //Evento cuando se está eliminando
         static::deleting(function ($model) {
+            $model->cities()->each(function($city){
+                $city->parishes()->each(function ($parish) {
+                    $parish->circuits()->each(function ($circuit) {
+                        $circuit->subcircuits()->delete();
+                    });
+                    $parish->circuits()->delete();
+                });
+                
+                $city->parishes()->delete();
+                //Ponemos en null la llave foranea de usuarios 
+                $city->users()->update([
+                    'city_id' => null
+                ]);
+            });
+            
             $model->cities()->delete();
         });
     }
@@ -74,9 +101,19 @@ class Province extends Model
         $query->with('cities.parishes.circuits');
     }
 
+    public function scopeWithDepFull($query)
+    {
+        $query->with('cities.parishes.circuits.subcircuits');
+    }
+
     public function scopeWhereHasDep($query)
     {
         $query->whereHas('cities.parishes.circuits');
+    }
+
+    public function scopeWhereHasDepFull($query)
+    {
+        $query->whereHas('cities.parishes.circuits.subcircuits');
     }
     
     public function scopeWhereHasCircuit($query)

@@ -29,16 +29,22 @@ class Parish extends Model
         // Evento después de crear un registro
         static::created(function ($model) {
             $model->removeMenuFromCache();
+            $model->removeMenuFromCacheByModelName(class_basename(Circuit::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Subcircuit::class));
         });
 
         // Evento después de actualizar un registro
         static::updated(function ($model) {
             $model->removeMenuFromCache();
+            $model->removeMenuFromCacheByModelName(class_basename(Circuit::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Subcircuit::class));
         });
 
         // Evento después de actualizar un registro
         static::deleted(function ($model) {
             $model->removeMenuFromCache();
+            $model->removeMenuFromCacheByModelName(class_basename(Circuit::class));
+            $model->removeMenuFromCacheByModelName(class_basename(Subcircuit::class));
         });
 
         //Evento cuando se está eliminando
