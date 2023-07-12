@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Head, Link, usePage } from '@inertiajs/react';
-import { MenuFoldOutlined, MenuUnfoldOutlined, UploadOutlined, UserOutlined, CarOutlined, HomeOutlined, LockOutlined, LogoutOutlined, CaretDownOutlined, EnvironmentOutlined } from '@ant-design/icons';
+import { MenuFoldOutlined, MenuUnfoldOutlined, UploadOutlined, UserOutlined, CarOutlined, HomeOutlined, LockOutlined, LogoutOutlined, CaretDownOutlined, EnvironmentOutlined, TagsOutlined } from '@ant-design/icons';
 import { Layout, Menu, Button, Col, theme, Row, Dropdown, Space, Typography, Avatar, Grid } from 'antd';
 import CustomAvatar from '@/Components/CustomAvatar';
 import FlashMessage from '@/Components/FlashMessage';
@@ -53,7 +53,7 @@ export default function Authenticated({ user, header, title, children }) {
             key: 'city.index',
             label: (
                 <Link href={route('city.index')}>
-                    Ciudades
+                    Ciudades/Distritos
                 </Link>
             ),
         },
@@ -81,7 +81,34 @@ export default function Authenticated({ user, header, title, children }) {
                 </Link>
             ),
         },
-    ]
+    ];
+
+    const childAssignments = [
+        {
+            key: 'subuser.index',
+            label: (
+                <Link href={route('subuser.index')}>
+                    Usuarios Subcircuitos
+                </Link>
+            ),
+        },
+        {
+            key: 'uservehicle.index',
+            label: (
+                <Link href={route('uservehicle.index')}>
+                    Vehículos Usuarios 
+                </Link>
+            ),
+        },
+        {
+            key: 'subvehicle.index',
+            label: (
+                <Link href={route('subvehicle.index')}>
+                    Vehículos Subcircuitos
+                </Link>
+            ),
+        },
+    ]; 
 
     const fChildDependece = childDependece.filter(item => permissions.includes(item.key));
 
@@ -123,6 +150,17 @@ export default function Authenticated({ user, header, title, children }) {
                 
             ),
             children:fChildDependece
+        },
+        {
+            key: 'assignments.index',
+            icon: <TagsOutlined />,
+            label: (
+                <>
+                    Asignaciones
+                </>
+                
+            ),
+            children:childAssignments
         },
         {
             key: 'rol.index',

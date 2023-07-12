@@ -107,7 +107,7 @@ const ModelList = ({ modelList }) => {
         <>
             <div className="flex items-center mt-2 mb-4">
                 <Title level={2} ellipsis>
-                    Ciudades
+                    Ciudades / Distritos
                 </Title>
                 <h1 className="flex-1 border-b-2 border-gray-100"></h1>
             </div>

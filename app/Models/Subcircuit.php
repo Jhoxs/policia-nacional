@@ -40,6 +40,11 @@ class Subcircuit extends Model
         static::deleted(function ($model) {
             $model->removeMenuFromCache();
         });
+
+        // Evento después de actualizar un registro
+        static::deleting(function ($model) {
+            $model->removeMenuFromCache();
+        });
     }
 
     /**
@@ -60,6 +65,22 @@ class Subcircuit extends Model
         'display_name',
         'circuit_id'
     ];
+
+    /**
+     * Obtenemos la relacion de los usuarios que pertenecen a ese subcircuito.
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    /**
+     * Obtenemos la relacion de los vehiculos que pertenecen a ese subcircuito.
+     */
+    public function vehicles(): BelongsToMany
+    {
+        return $this->belongsToMany(Vehicle::class);
+    }
 
     /**
      * Obtenemos el circuito al que pertenecen los subcircuitos.

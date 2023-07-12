@@ -9,6 +9,9 @@ use App\Http\Controllers\CircuitController;
 use App\Http\Controllers\ParishController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ProvinceController;
+use App\Http\Controllers\SubcircuitUserController;
+use App\Http\Controllers\SubcircuitVehicleController;
+use App\Http\Controllers\UserVehicleController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -116,6 +119,36 @@ Route::middleware('auth')->group(function () {
     Route::get('/province/{id}', [ProvinceController::class, 'edit'])->name('province.edit');
     Route::patch('/province/{id}', [ProvinceController::class, 'update'])->name('province.update');
     Route::delete('/province/{id}', [ProvinceController::class, 'destroy'])->name('province.destroy');
+});
+
+//SubcircuitUser
+Route::middleware('auth')->group(function () {
+    Route::get('/subuser', [SubcircuitUserController::class, 'index'])->name('subuser.index');
+    Route::get('/subuser/create', [SubcircuitUserController::class, 'create'])->name('subuser.create');
+    Route::post('/subuser', [SubcircuitUserController::class, 'store'])->name('subuser.store');
+    Route::get('/subuser/{id}', [SubcircuitUserController::class, 'edit'])->name('subuser.edit');
+    Route::patch('/subuser/{id}', [SubcircuitUserController::class, 'update'])->name('subuser.update');
+    Route::delete('/subuser/{id}', [SubcircuitUserController::class, 'destroy'])->name('subuser.destroy');
+});
+
+//SubcircuitVehicle
+Route::middleware('auth')->group(function () {
+    Route::get('/subvehicle', [SubcircuitVehicleController::class, 'index'])->name('subvehicle.index');
+    Route::get('/subvehicle/create', [SubcircuitVehicleController::class, 'create'])->name('subvehicle.create');
+    Route::post('/subvehicle', [SubcircuitVehicleController::class, 'store'])->name('subvehicle.store');
+    Route::get('/subvehicle/{id}', [SubcircuitVehicleController::class, 'edit'])->name('subvehicle.edit');
+    Route::patch('/subvehicle/{id}', [SubcircuitVehicleController::class, 'update'])->name('subvehicle.update');
+    Route::delete('/subvehicle/{id}', [SubcircuitVehicleController::class, 'destroy'])->name('subvehicle.destroy');
+});
+
+//UserVehicle
+Route::middleware('auth')->group(function () {
+    Route::get('/uservehicle', [UserVehicleController::class, 'index'])->name('uservehicle.index');
+    Route::get('/uservehicle/create', [UserVehicleController::class, 'create'])->name('uservehicle.create');
+    Route::post('/uservehicle', [UserVehicleController::class, 'store'])->name('uservehicle.store');
+    Route::get('/uservehicle/{id}', [UserVehicleController::class, 'edit'])->name('uservehicle.edit');
+    Route::patch('/uservehicle/{id}', [UserVehicleController::class, 'update'])->name('uservehicle.update');
+    Route::delete('/uservehicle/{id}', [UserVehicleController::class, 'destroy'])->name('uservehicle.destroy');
 });
 
 

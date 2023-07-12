@@ -16,7 +16,10 @@ class VehicleCollection extends ResourceCollection
     public function toArray(Request $request)
     {
         return $this->collection->map(function($item){
-            
+
+            $subcircuits = $item->subcircuits->pluck(['display_name']);
+            $users = $item->users->pluck(['identification']);
+            $subc = $item->subcircuits->first();
             return [
                 'key' => $item->id,
                 'plate' => $item->plate,
@@ -29,7 +32,10 @@ class VehicleCollection extends ResourceCollection
                 'cylinder_capacity'  => $item->cylinder_capacity,
                 'loading_capacity' => $item->loading_capacity,
                 'passenger_capacity' => $item->passenger_capacity,
-                'vehicle_type' => $item->vehicle_type->display_name
+                'vehicle_type' => $item->vehicle_type->display_name,
+                'subcircuits' => $subcircuits,
+                'users' => $users,
+                'cities' => isset($subc) ? $subc->circuit->parish->city->display_name : null
             ];
         });
     }

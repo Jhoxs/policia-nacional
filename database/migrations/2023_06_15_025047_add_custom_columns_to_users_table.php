@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('identification')->unique()->after('last_name');
             $table->string('phone')->unique()->nullable()->after('identification');
             $table->date('birthdate')->after('phone');
-            $table->foreignId('city_id')->after('birthdate')->constrained('cities');
+            $table->foreignId('city_id')->after('birthdate')->nullable()->constrained('cities');
             $table->foreignId('blood_type_id')->after('city_id')->constrained('blood_types');
             $table->foreignId('rank_id')->after('blood_type_id')->constrained('ranks');
             $table->softDeletes()->after('updated_at');

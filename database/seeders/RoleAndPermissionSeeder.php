@@ -215,7 +215,72 @@ class RoleAndPermissionSeeder extends Seeder
             'name' => 'province.update'
         ])->syncRoles([$admin]);
         
+
+         //PERMISOS PARA ASIGNACIONES
+         Permission::updateOrCreate([
+            'name' => 'assignments.index'
+        ])->syncRoles([$admin]);
+
+         //PERMISOS PARA ASIGNAR SUBCIRCUITOS A LOS USUARIOS
+        Permission::updateOrCreate([
+            'name' => 'subuser.index'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'subuser.create'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'subuser.store'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'subuser.edit'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'subuser.destroy'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'subuser.update'
+        ])->syncRoles([$admin]);
         
+        //PERMISOS PARA ASIGNAR SUBCIRCUITOS A LOS VEHICULOS
+        Permission::updateOrCreate([
+            'name' => 'subvehicle.index'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'subvehicle.create'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'subvehicle.store'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'subvehicle.edit'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'subvehicle.destroy'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'subvehicle.update'
+        ])->syncRoles([$admin]);
+        
+        //PERMISOS PARA ASIGNAR USUARIOS A LOS VEHICULOS
+        Permission::updateOrCreate([
+            'name' => 'uservehicle.index'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'uservehicle.create'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'uservehicle.store'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'uservehicle.edit'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'uservehicle.destroy'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'uservehicle.update'
+        ])->syncRoles([$admin]);
+
 
 
         //Asignamos el rol por defecto al administrador

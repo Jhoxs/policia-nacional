@@ -17,6 +17,7 @@ class UserResource extends JsonResource
     {
         
         $roles = $this->roles->pluck(['name']);
+        $subcircuits = $this->subcircuits->pluck(['display_name']);
 
         $carbon = Carbon::parse($this->birthdate)->locale('es');
         $fecha_transformada = $carbon->isoFormat('D \d\e MMMM \d\e YYYY');
@@ -31,10 +32,12 @@ class UserResource extends JsonResource
             'email'=>$this->email,
             'rank' => $this->rank->id,
             'blood_type' => $this->blood_type->id,
-            'city'  => $this->city->id,
+            'city'  => $this->city->id ?? null,
             'roles' => $roles,
             'birthdate' => $fecha_transformada,
-            'birthdate_form' => $date_to_form
+            'birthdate_form' => $date_to_form,
+            'subcircuit' => $subcircuits,
+            'full_name' => $this->full_name ?? null
         ];
     
     }
