@@ -281,6 +281,12 @@ class RoleAndPermissionSeeder extends Seeder
             'name' => 'uservehicle.update'
         ])->syncRoles([$admin]);
 
+         //PERMISOS PARA LOS RECLAMOS
+         Permission::updateOrCreate([
+            'name' => 'suggestion.index'
+        ])->syncRoles([$admin]);
+    
+
 
 
         //Asignamos el rol por defecto al administrador

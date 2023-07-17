@@ -92,6 +92,16 @@ class Circuit extends Model
         $query->with('parish.city.province');
     }
 
+    public function scopeWithSubcircuit($query)
+    {
+        $query->with('subcircuits');
+    }
+
+    public function scopeWhereHasSubc($query)
+    {
+        $query->whereHas('subcircuits');
+    }
+
     public function scopeSearchBar($query, $filters)
     {
         $query->when(isset($filters['value']) && $filters['key'] , function($query) use ($filters) {

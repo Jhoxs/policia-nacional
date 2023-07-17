@@ -12,6 +12,7 @@ use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\SubcircuitUserController;
 use App\Http\Controllers\SubcircuitVehicleController;
 use App\Http\Controllers\UserVehicleController;
+use App\Http\Controllers\SuggestionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,7 +35,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('landingpage');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -151,5 +152,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/uservehicle/{id}', [UserVehicleController::class, 'destroy'])->name('uservehicle.destroy');
 });
 
+
+//Suggestion forms
+Route::middleware('guest')->group(function () {
+    Route::get('/suggestionform', [SuggestionController::class, 'indexFormSuggestion'])->name('suggestion.indexform');
+    Route::post('/suggestionform', [SuggestionController::class, 'storeFormSuggestion'])->name('suggestion.storeform');
+});
+
+//UserVehicle
+Route::middleware('auth')->group(function () {
+    Route::get('/suggestion', [SuggestionController::class, 'index'])->name('suggestion.index');
+    
+});
 
 require __DIR__.'/auth.php';
