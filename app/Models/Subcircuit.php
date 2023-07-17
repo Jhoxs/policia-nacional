@@ -75,6 +75,14 @@ class Subcircuit extends Model
     }
 
     /**
+     * Obtenemos las suggerencias de un subcircuito.
+     */
+    public function suggestions(): HasMany
+    {
+        return $this->hasMany(Suggestion::class);
+    }
+
+    /**
      * Obtenemos la relacion de los vehiculos que pertenecen a ese subcircuito.
      */
     public function vehicles(): BelongsToMany

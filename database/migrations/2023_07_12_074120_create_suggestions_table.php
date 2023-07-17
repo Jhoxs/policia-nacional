@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('subcircuit_id')->constrained('subcircuits');
             $table->foreignId('catalog_item_id')->constrained('catalog_items');
-            $table->text('description')->nullable();
-            $table->string('name')->unique();
-            $table->string('last_name')->unique();
+            $table->string('name');
+            $table->string('last_name');
+            $table->text('description');
             $table->timestamps();
         });
     }

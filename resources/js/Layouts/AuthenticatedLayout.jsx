@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Head, Link, usePage } from '@inertiajs/react';
-import { MenuFoldOutlined, MenuUnfoldOutlined, UploadOutlined, UserOutlined, CarOutlined, HomeOutlined, LockOutlined, LogoutOutlined, CaretDownOutlined, EnvironmentOutlined, TagsOutlined } from '@ant-design/icons';
+import { MenuFoldOutlined, MenuUnfoldOutlined, SmileOutlined, UserOutlined, CarOutlined, HomeOutlined, LockOutlined, LogoutOutlined, CaretDownOutlined, EnvironmentOutlined, TagsOutlined } from '@ant-design/icons';
 import { Layout, Menu, Button, Col, theme, Row, Dropdown, Space, Typography, Avatar, Grid } from 'antd';
 import CustomAvatar from '@/Components/CustomAvatar';
 import FlashMessage from '@/Components/FlashMessage';
@@ -168,6 +168,15 @@ export default function Authenticated({ user, header, title, children }) {
             label: (
                 <Link href={route('rol.index')}>
                     Roles
+                </Link>
+            ),
+        },
+        {
+            key: 'suggestion.index',
+            icon: <SmileOutlined />,
+            label: (
+                <Link href={route('suggestion.index')}>
+                    Sugerencias
                 </Link>
             ),
         },
