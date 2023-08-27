@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('maintenance_maintenance_types', function (Blueprint $table) {
+        Schema::create('maintenance_maintenance_type', function (Blueprint $table) {
             $table->foreignId('maintenance_id')->constrained('maintenances');
             $table->foreignId('maintenance_type_id')->constrained('maintenance_types');
         });
@@ -22,10 +22,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('maintenance_maintenance_types', function (Blueprint $table) {
+        Schema::table('maintenance_maintenance_type', function (Blueprint $table) {
             $table->dropForeign(['maintenance_id']);
             $table->dropForeign(['maintenance_type_id']);
         });
-        Schema::dropIfExists('maintenance_maintenance_types');
+        Schema::dropIfExists('maintenance_maintenance_type');
     }
 };

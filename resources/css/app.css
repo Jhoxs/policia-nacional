@@ -19,3 +19,9 @@ body{
   margin: 0;
   padding: 0;
 }
+
+.custom-datepicker .ant-picker-footer .ant-btn-primary {
+  background-color: #203956; 
+  border-color: #203956; 
+  color: #ffffff; 
+}

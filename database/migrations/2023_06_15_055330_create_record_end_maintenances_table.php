@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('record_end_maintenances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('vehicle_id')->constrained('vehicles');
+            $table->foreignId('user_id')->constrained('users');
             $table->text('detail')->nullable();
             $table->integer('next_mileage')->nullable();
             $table->timestamp('departure_date');
@@ -29,6 +30,7 @@ return new class extends Migration
     {
         Schema::table('record_end_maintenances', function (Blueprint $table) {
             $table->dropForeign(['vehicle_id']);
+            $table->dropForeign(['user_id']);
         });
         Schema::dropIfExists('record_end_maintenances');
     }

@@ -1,66 +1,70 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# **SGPN**
+<img src="resources/img/logo.jpg" alt="SGON" width="200"/>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
+## **Acerca de**
+El **Sistema de Gestión de la Policía Nacional** es una aplicación web que permite la gestión de los vehículos que tiene la policía nacional poder realizar mantenimientos, generar informes, administrar al personal, entre otros.
 
-## About Laravel
+---
+## **Requisitos Previos**
+Para poder instalar el proyecto localmente se debe tener en cuenta que se utiliza laravel sail y docket para poder correr el proyecto de forma correcta.
+ * Laravel 10
+ * PHP 8.2
+ * Laravel Sail
+ * Docker Desktop
+ * Windows WSL2 
+ * Visual Studio Code (Opcional) 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
+## **Instalación**
+Para poder instalar la app dentro de un ambiente de desarrollo se debe seguir los siguentes pasos:
+1. Abrir el terminal de ubuntu en el WSL2.
+2. Clonar el proyecto en el terminal.
+3. Ingresar al proyecto e instalar las dependencias de laravel sail.
+    > composer require laravel/sail --dev
+4. Publicar laravel sail en la raiz del proyecto con el siguiente comando.
+    > php artisan sail:install
+5. Iniciarlizar el proyecto con el siguiente comando.
+    > ./vendor/bin/sail up 
+6. Generar un alias para sail con el siguiente comando.
+    > alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+7. Crear una DB y configurar el .env para poder realizar una conexion a la base de datos, con los datos utilizados en las variables de entorno.
+8. Instalar las dependencias de Front y Back con los siguientes comando.
+    > sail composer install
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+    > sail npm install
+9. Cargar las migraciones y rellenar los datos con los seeders utilizando los siguiente comandos.
+    > sail artisan migrate:fresh --seed
+10. Encender el proyecto con el siguiente comando.
+    > sail npm run dev -- --host
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Nota:**  Para configurar las variables de entorno de manera local, se debe crear un archivo .env en la raiz del proyecto, Se puede basar en el .env.example.
 
-## Learning Laravel
+---
+## **Variables de entorno**
+### **Base de datos**
+|Nombre de la variable|           Uso                 |
+|---------------------|-------------------------------|
+|DB_DATABASE              |Nombre de la base de datos    |
+|DB_USERNAME              |Nombre del usuario para hacer conexión      |
+|DB_PASSWORD          |Contraseña de la DB            |
+|DB_PORT          |Puerto de la conexión           |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**Nota**: Para poder realizar pruebas se debe configurar mailtrap en el .env
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+## **Capturas del sitio**
+**Landing Page**
+![Captura No1](resources/img/landing-page.png)
+**Registro**
+![Captura No1](resources/img/registro.png)
+**Página principal**
+![Captura No1](resources/img/home.png)
+**Registrar Mantenimiento**
+![Captura No1](resources/img/reg-mantenimiento.png)
+**Mantenimiento**
+![Captura No1](resources/img/mantenimiento.png)
+**Vehículos**
+![Captura No1](resources/img/vehiculos.png)
+**Informes**
+![Captura No1](resources/img/informes.png)

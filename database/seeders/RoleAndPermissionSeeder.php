@@ -280,11 +280,95 @@ class RoleAndPermissionSeeder extends Seeder
          Permission::updateOrCreate([
             'name' => 'uservehicle.update'
         ])->syncRoles([$admin]);
-
-         //PERMISOS PARA LOS RECLAMOS
+        
+        //PERMISOS PARA ASIGNAR CONTRATOS
+        Permission::updateOrCreate([
+            'name' => 'contract.index'
+        ])->syncRoles([$admin]);
          Permission::updateOrCreate([
+            'name' => 'contract.create'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'contract.store'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'contract.edit'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'contract.destroy'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'contract.update'
+        ])->syncRoles([$admin]);
+        
+        //PERMISOS PARA ASIGNAR REPUESTOS
+        Permission::updateOrCreate([
+            'name' => 'spare.index'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'spare.create'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'spare.store'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'spare.edit'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'spare.destroy'
+        ])->syncRoles([$admin]);
+         Permission::updateOrCreate([
+            'name' => 'spare.update'
+        ])->syncRoles([$admin]);
+
+        //PERMISOS PARA LOS MANTENIMIENTOS
+        Permission::updateOrCreate([
+            'name' => 'maintenance.index'
+        ])->syncRoles([$admin,$auxiliar,$gerencia,$personal]);
+        Permission::updateOrCreate([
+            'name' => 'maintenance.show'
+        ])->syncRoles([$admin,$auxiliar,$gerencia,$personal]);
+         Permission::updateOrCreate([
+            'name' => 'maintenance.create'
+        ])->syncRoles([$admin,$auxiliar,$gerencia,$personal]);
+         Permission::updateOrCreate([
+            'name' => 'maintenance.store'
+        ])->syncRoles([$admin,$auxiliar,$gerencia,$personal]);
+         Permission::updateOrCreate([
+            'name' => 'maintenance.edit'
+        ])->syncRoles([$admin,$auxiliar,$gerencia,$personal]);
+         Permission::updateOrCreate([
+            'name' => 'maintenance.destroy'
+        ])->syncRoles([$admin,$auxiliar,$gerencia,$personal]);
+        Permission::updateOrCreate([
+            'name' => 'maintenance.update'
+        ])->syncRoles([$admin,$auxiliar,$gerencia,$personal]);
+        Permission::updateOrCreate([
+            'name' => 'maintenance.manager' //Para administrar los mantenimientos
+        ])->syncRoles([$admin]);
+            
+
+        //PERMISOS PARA LAS SOLICITUDES
+        Permission::updateOrCreate([
+            'name' => 'generalrequest.index'
+        ])->syncRoles([$admin]);
+        Permission::updateOrCreate([
+            'name' => 'requestmaintenance.index'
+        ])->syncRoles([$admin]);
+
+        //PERMISOS PARA LOS RECLAMOS
+        Permission::updateOrCreate([
             'name' => 'suggestion.index'
         ])->syncRoles([$admin]);
+        
+        
+        //PERMISOS PARA LA REPORTERIA
+        Permission::updateOrCreate([
+            'name' => 'report.index'
+        ])->syncRoles([$admin,$gerencia]);
+        Permission::updateOrCreate([
+            'name' => 'report.download'
+        ])->syncRoles([$admin,$gerencia]);
     
 
 

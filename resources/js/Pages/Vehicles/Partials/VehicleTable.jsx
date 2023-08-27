@@ -6,7 +6,7 @@ import VehiclePreviewInfo from './VehiclePreviewInfo';
 import { router, Link, usePage } from '@inertiajs/react';
 import React, { useState } from 'react';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const { colorVehicles } = collectionColors;
 
@@ -15,6 +15,7 @@ export default function VehicleTable({ modelList }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modelPreview, setModelPreview] = useState(false);
     const [searchValue, setSearchValue] = useState('');
+    const [rejectedReason, setRejectedReason] = useState('');
     const [searchItemValue, setSearchItemValue] = useState({
         value: 'plate',
         label: 'Placa'
@@ -32,15 +33,22 @@ export default function VehicleTable({ modelList }) {
     };
 
     const confirm = data => e => {
-        router.delete(route('vehicle.destroy', data), {
+
+        const info = {
+            id: data,
+            reason: rejectedReason,
+            typeRequest: 'reject'
+        }
+
+        router.delete(route('vehicle.destroy', info), {
             onSuccess: () => {
-                message.success('Se vehículo se ha eliminado con éxito');
+                //message.success('Se vehículo se ha eliminado con éxito');
             }
         });
     }
     
     const cancel = () => {
-        message.warning('Se canceló esa acción');
+        //message.warning('Se canceló esa acción');
     }
 
     const columns = [
@@ -126,7 +134,20 @@ export default function VehicleTable({ modelList }) {
                                 <Tooltip title={'Eliminar'}>
                                     <Popconfirm
                                         title='Eliminación del Vehículo'
-                                        description={"¿Está seguro que desea eliminar el vehículo con matriculta " + record.plate + " ?"}
+                                        description={
+                                            <>
+                                                <Text>
+                                                    {"¿Está seguro que desea eliminar el vehículo con matriculta " + record.plate + " ?"}   
+                                                </Text>
+                                                <Input.TextArea
+                                                    placeholder='Escriba el motivo...'
+                                                    className='mt-3 mb-3'
+                                                    maxLength={255}
+                                                    value={rejectedReason}
+                                                    onChange={e => setRejectedReason(e.target.value)}
+                                                />
+                                            </>
+                                        }
                                         okText='Si'
                                         cancelText='No'
                                         icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
@@ -134,6 +155,7 @@ export default function VehicleTable({ modelList }) {
                                         cancelButtonProps={{ size: 'middle' }}
                                         onConfirm={confirm(record.key)}
                                         onCancel={cancel}
+                                        onClick={() => setRejectedReason('')}
                                     >
                                         <Button size='small' type="primary" danger shape='round' icon={<DeleteOutlined />} />
                                     </Popconfirm>

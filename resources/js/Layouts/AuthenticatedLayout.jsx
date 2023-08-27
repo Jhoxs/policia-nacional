@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Head, Link, usePage } from '@inertiajs/react';
-import { MenuFoldOutlined, MenuUnfoldOutlined, SmileOutlined, UserOutlined, CarOutlined, HomeOutlined, LockOutlined, LogoutOutlined, CaretDownOutlined, EnvironmentOutlined, TagsOutlined } from '@ant-design/icons';
+import { MenuFoldOutlined, MenuUnfoldOutlined, SmileOutlined, UserOutlined, CarOutlined, InboxOutlined,
+    HomeOutlined, LockOutlined, LogoutOutlined, ApiOutlined, CaretDownOutlined, EnvironmentOutlined, TagsOutlined,
+    SnippetsOutlined, RocketOutlined, AuditOutlined,
+} from '@ant-design/icons';
 import { Layout, Menu, Button, Col, theme, Row, Dropdown, Space, Typography, Avatar, Grid } from 'antd';
 import CustomAvatar from '@/Components/CustomAvatar';
 import FlashMessage from '@/Components/FlashMessage';
@@ -108,9 +111,22 @@ export default function Authenticated({ user, header, title, children }) {
                 </Link>
             ),
         },
-    ]; 
+    ];
+    
+    const  childRequest = [
+        {
+            key: 'requestmaintenance.index',
+            label: (
+                <Link href={route('requestmaintenance.index')}>
+                    Solicitudes de Mantenimientos
+                </Link>
+            ),
+        }
+    ];
 
     const fChildDependece = childDependece.filter(item => permissions.includes(item.key));
+    const fChildAssignments = childAssignments.filter(item => permissions.includes(item.key));
+    const fChildRequest = childRequest.filter(item => permissions.includes(item.key));
 
     const menuItems = [
         {
@@ -141,6 +157,44 @@ export default function Authenticated({ user, header, title, children }) {
             ),
         },
         {
+            key: 'contract.index',
+            icon: <SnippetsOutlined />,
+            label: (
+                <Link href={route('contract.index')}>
+                    Contratos
+                </Link>
+            ),
+        },
+        {
+            key: 'spare.index',
+            icon: <RocketOutlined />,
+            label: (
+                <Link href={route('spare.index')}>
+                    Repuestos
+                </Link>
+            ),
+        },
+        {
+            key: 'maintenance.index',
+            icon: <ApiOutlined />,
+            label: (
+                <Link href={route('maintenance.index')}>
+                    Mantenimientos
+                </Link>
+            ),
+        },
+        {
+            key: 'generalrequest.index',
+            icon: <InboxOutlined />,
+            label: (
+                <>
+                    Solicitudes
+                </>
+                
+            ),
+            children:fChildRequest
+        },
+        {
             key: 'dependence.index',
             icon: <EnvironmentOutlined />,
             label: (
@@ -160,7 +214,7 @@ export default function Authenticated({ user, header, title, children }) {
                 </>
                 
             ),
-            children:childAssignments
+            children:fChildAssignments
         },
         {
             key: 'rol.index',
@@ -168,6 +222,15 @@ export default function Authenticated({ user, header, title, children }) {
             label: (
                 <Link href={route('rol.index')}>
                     Roles
+                </Link>
+            ),
+        },
+        {
+            key: 'report.index',
+            icon: <AuditOutlined />,
+            label: (
+                <Link href={route('report.index')}>
+                    Informes
                 </Link>
             ),
         },
@@ -209,16 +272,16 @@ export default function Authenticated({ user, header, title, children }) {
 
     const headerStyle = {
         padding: 0,
-        background: colorBgContainer
+        background: colorBgContainer,
     }
 
     const contetStyle = {
-        margin: '12px 8px',
+        //margin: '12px 8px',
         overflow: 'initial',
         padding: 24,
         minHeight: '88vh',
         background: colorBgContainer,
-        borderRadius: '12px'
+        borderRadius: '0px'
     }
 
 
@@ -258,8 +321,8 @@ export default function Authenticated({ user, header, title, children }) {
                     />
                 </Sider>
 
-                <Layout className="site-layout" style={!collapsed?{marginLeft: 200 }:{marginLeft: 76 }}>
-                    <Header style={headerStyle} className='shadow-lg'>
+                <Layout className="site-layout" style={!collapsed?{marginLeft: 200 }:{marginLeft: 80 }}>
+                    <Header style={headerStyle} className='shadow-md z-1'>
                         <Row justify='space-between'>
                             <Col>
                                 <Button
@@ -298,7 +361,7 @@ export default function Authenticated({ user, header, title, children }) {
                     <Content
                         style={contetStyle}
                     >
-                        <div className='fixed top-0 left-[40%] z-1 transition translate-y-4'>
+                        <div className='fixed top-0 left-[40%] z-10 transition translate-y-4'>
                             <FlashMessage />
                         </div>
 

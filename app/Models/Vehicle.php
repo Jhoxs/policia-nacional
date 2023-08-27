@@ -32,6 +32,26 @@ class Vehicle extends Model
     ];
 
     /**
+    * Metodos utilizados al inicializar el modelo.
+    */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Evento después de crear un registro
+        static::created(function ($model) {
+            
+            (new \App\Http\Controllers\AuditLogController())->store(new \Illuminate\Http\Request([
+                'model'     => $model,
+                'action'    => 'crear',
+                'detail'    => 'El vehículo ha sido creado' 
+            ]));
+            
+        });
+
+    }
+
+    /**
     * Obtenemos el tipo de vehiculo al que pertenece.
     */
     public function vehicle_type(): BelongsTo
