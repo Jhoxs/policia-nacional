@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('maintenance_types', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->integer('price');
-            $table->text('detail')->nullable();
+            $table->decimal('price', $precision = 8, $scale = 2)->nullable()->default(0);
+            $table->json('detail')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

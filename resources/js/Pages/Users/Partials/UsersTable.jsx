@@ -6,7 +6,7 @@ import UserPreviewInfo from './UserPreviewInfo';
 import { router, Link, usePage } from '@inertiajs/react';
 import React, { useState } from 'react';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const { colorRoles } = collectionColors;
 
@@ -18,9 +18,10 @@ export default function UsersTable({ userList }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [userPreview, setUserPreview] = useState(false);
     const [searchValue, setSearchValue] = useState('');
+    const [rejectedReason, setRejectedReason] = useState('');
     const [searchItemValue, setSearchItemValue] = useState({
-        value:'name',
-        label:'Nombres'
+        value: 'name',
+        label: 'Nombres'
     });
     const { permissions } = usePage().props?.auth || [];
 
@@ -35,15 +36,22 @@ export default function UsersTable({ userList }) {
     };
 
     const confirm = data => e => {
-        router.delete(route('user.destroy', data), {
+
+        const info = {
+            id: data,
+            reason: rejectedReason,
+            typeRequest: 'reject'
+        }
+        
+        router.delete(route('user.destroy', info), {
             onSuccess: () => {
-                message.success('Se ha eliminado el usuario con éxito');
+                //message.success('Se ha eliminado el usuario con éxito');
             }
         });
     }
 
     const cancel = () => {
-        message.warning('Se canceló esa acción');
+        //message.warning('Se canceló esa acción');
     }
 
     const columns = [
@@ -138,7 +146,20 @@ export default function UsersTable({ userList }) {
                                 <Tooltip title={'Eliminar'}>
                                     <Popconfirm
                                         title='Eliminación del Rol'
-                                        description={"¿Está seguro que desea eliminar al usuario " + record.name + " con identificación " + record.identification + " ?"}
+                                        description={
+                                            <>
+                                                <Text>
+                                                    {"¿Está seguro que desea eliminar al usuario " + record.full_name + " con identificación " + record.identification + " ?"}
+                                                </Text>
+                                                <Input.TextArea
+                                                    placeholder='Escriba el motivo...'
+                                                    className='mt-3 mb-3'
+                                                    maxLength={255}
+                                                    value={rejectedReason}
+                                                    onChange={e => setRejectedReason(e.target.value)}
+                                                />
+                                            </>
+                                        }
                                         okText='Si'
                                         cancelText='No'
                                         icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
@@ -146,6 +167,7 @@ export default function UsersTable({ userList }) {
                                         cancelButtonProps={{ size: 'middle' }}
                                         onConfirm={confirm(record.key)}
                                         onCancel={cancel}
+                                        onClick={() => setRejectedReason('')}
                                     >
                                         <Button size='small' type="primary" danger shape='round' icon={<DeleteOutlined />} />
                                     </Popconfirm>
@@ -178,20 +200,20 @@ export default function UsersTable({ userList }) {
         }, {
             label: 'Tipo de Sangre',
             value: 'blood_type'
-        },{
+        }, {
             label: 'Email',
             value: 'email'
         }
     ];
 
-    const handleSeach = (value,itemValue) =>{
+    const handleSeach = (value, itemValue) => {
         const iValue = itemValue.value || itemValue;
-        router.visit(route('user.index',{value:value,key:iValue}),{
-            preserveState:true,
-            method:'get'
-        })   
+        router.visit(route('user.index', { value: value, key: iValue }), {
+            preserveState: true,
+            method: 'get'
+        })
     }
-    
+
 
     return (
         <>
@@ -221,14 +243,14 @@ export default function UsersTable({ userList }) {
 
             <div className="flex justify-end mb-3 ">
                 <Space.Compact size='large'>
-                    <Select 
-                        options={options} 
+                    <Select
+                        options={options}
                         defaultValue={options[0]}
                         onChange={value => setSearchItemValue(value)}
                     />
-                    <Input.Search 
+                    <Input.Search
                         value={searchValue}
-                        onChange={ e => setSearchValue(e.target.value)}
+                        onChange={e => setSearchValue(e.target.value)}
                         onSearch={value => handleSeach(value, searchItemValue)}
                     />
                 </Space.Compact>

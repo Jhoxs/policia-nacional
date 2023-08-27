@@ -23,6 +23,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Request as Rq;
 
+//Controllers
+use App\Http\Controllers\AuditLogController;
+
 class UserController extends Controller
 {
     public function __construct()
@@ -91,7 +94,7 @@ class UserController extends Controller
         $mail_info->email = $request->email;
         $mail_info->password = $password;
 
-        Notification::sendNow($user, new CreateUserMailAlert($mail_info));
+        //Notification::sendNow($user, new CreateUserMailAlert($mail_info));
 
         
         return to_route('user.index')->with('success', 'El usuario se ha creado con éxito');
@@ -165,9 +168,18 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $user)
-    {
-        $user = User::find($user);
+    public function destroy(Request $request, string $id)
+    {   
+
+        $info = $request->only('reason','typeRequest');
+        $user = User::find($id);
+
+        (new AuditLogController)->store(new Request([
+            'model'     => $user,
+            'action'    => 'eliminar',
+            'detail'    => $info['reason'] ?? 'El usuario ha sido eliminado'
+        ]));
+        
         $user->delete();
 
         return to_route('user.index')->with('success', 'El usuario se ha eliminado con éxito');

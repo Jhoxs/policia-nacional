@@ -27,8 +27,8 @@ class SuggFormRequest extends FormRequest
         $this->merge([
             'dependence' => $subcircuit_id,
             'circuit_id' => $circuit_id,
-            'name'       => trim(strtoupper($this->name)),
-            'lastname'   => trim(strtoupper($this->lastname)),
+            'name'       => trim(mb_strtoupper($this->name)),
+            'lastname'   => trim(mb_strtoupper($this->lastname)),
             'description'   => trim($this->description),
         ]);
 

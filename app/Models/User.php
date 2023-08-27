@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Controllers\AuditLogController;
 
 class User extends Authenticatable
 {
@@ -34,6 +35,27 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+
+    /**
+    * Metodos utilizados al inicializar el modelo.
+    */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Evento después de crear un registro
+        static::created(function ($model) {
+            
+            (new \App\Http\Controllers\AuditLogController())->store(new \Illuminate\Http\Request([
+                'model'     => $model,
+                'action'    => 'crear',
+                'detail'    => 'El usuario ha sido creado' 
+            ]));
+            
+        });
+
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -132,6 +154,11 @@ class User extends Authenticatable
     public function scopeWithSubc($query)
     {
         $query->with('subcircuits');
+    }
+
+    public function scopeByIdentification($query, $identification)
+    {
+        $query->where('identification',$identification);
     }
 
     public function scopeSameCity($query,$cities)

@@ -128,9 +128,18 @@ class VehicleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
+        $info = $request->only('reason','typeRequest');
+
         $vehicle = Vehicle::find($id);
+
+        (new \App\Http\Controllers\AuditLogController)->store(new Request([
+            'model'     => $vehicle,
+            'action'    => 'eliminar',
+            'detail'    => $info['reason'] ?? 'El vehículo ha sido eliminado'
+        ]));
+
         $vehicle->delete();
 
         return to_route('vehicle.index')->with('success', 'El vehículo se ha eliminado con éxito');

@@ -3,7 +3,7 @@ import { Space, Tag, Button, Tooltip, Typography, Popconfirm, message, Modal, Av
 import { FileSearchOutlined, BugOutlined, VerifiedOutlined, IdcardOutlined, PicCenterOutlined, AlertOutlined, SlidersOutlined, VerticalAlignTopOutlined, DashboardOutlined, TeamOutlined, CarOutlined } from '@ant-design/icons';
 const { Title, Text } = Typography;
 
-export default function VehiclePreviewInfo({ modelPreview }) {
+export default function VehiclePreviewInfo({ modelPreview, customTitle }) {
 
     const gridStyle = {
         width: '100%',
@@ -13,14 +13,23 @@ export default function VehiclePreviewInfo({ modelPreview }) {
 
     return (
         <>
-            <div className="flex justify-center">
-                <Title level={3}>
-                    Información General
+            { !customTitle && (
+                <div className="flex justify-center">
+                    <Title level={3}>
+                        Información General
+                    </Title>
+                </div>
+            )}
+            { customTitle && (
+                
+                <Title level={customTitle.level || 3}>
+                    { customTitle.title || 'Información'}
                 </Title>
-            </div>
+            
+            )}
             <div className='mt-2'>
-                <Card>
-                    <Card.Grid style={gridStyle}>
+                <Card style={customTitle?.style}>
+                    <Card.Grid style={gridStyle} hoverable={!customTitle}>
                         <Space size={20}>
                             <IdcardOutlined style={{ fontSize: '30px' }} />
                             <div className='sm:block'>
@@ -31,7 +40,7 @@ export default function VehiclePreviewInfo({ modelPreview }) {
                             </div>
                         </Space>
                     </Card.Grid>
-                    <Card.Grid style={gridStyle}>
+                    <Card.Grid style={gridStyle} hoverable={!customTitle}>
                         <Space size={20}>
                             <BugOutlined style={{ fontSize: '30px' }} />
                             <div className='sm:block'>
@@ -42,7 +51,7 @@ export default function VehiclePreviewInfo({ modelPreview }) {
                             </div>
                         </Space>
                     </Card.Grid>
-                    <Card.Grid style={gridStyle}>
+                    <Card.Grid style={gridStyle} hoverable={!customTitle}>
                         <Space size={20}>
                             <VerifiedOutlined style={{ fontSize: '30px' }} />
                             <div className='sm:block'>
@@ -53,7 +62,7 @@ export default function VehiclePreviewInfo({ modelPreview }) {
                             </div>
                         </Space>
                     </Card.Grid>
-                    <Card.Grid style={gridStyle}>
+                    <Card.Grid style={gridStyle} hoverable={!customTitle}>
                         <Space size={20}>
                             <FileSearchOutlined style={{ fontSize: '30px' }} />
                             <div className='sm:block'>
@@ -64,7 +73,7 @@ export default function VehiclePreviewInfo({ modelPreview }) {
                             </div>
                         </Space>
                     </Card.Grid>
-                    <Card.Grid style={gridStyle}>
+                    <Card.Grid style={gridStyle} hoverable={!customTitle}>
                         <Space size={20}>
                             <PicCenterOutlined style={{ fontSize: '30px' }} />
                             <div className='sm:block'>
@@ -75,7 +84,7 @@ export default function VehiclePreviewInfo({ modelPreview }) {
                             </div>
                         </Space>
                     </Card.Grid>
-                    <Card.Grid style={gridStyle}>
+                    <Card.Grid style={gridStyle} hoverable={!customTitle}>
                         <Space size={20}>
                             <DashboardOutlined style={{ fontSize: '30px' }} />
                             <div className='sm:block'>
@@ -86,7 +95,7 @@ export default function VehiclePreviewInfo({ modelPreview }) {
                             </div>
                         </Space>
                     </Card.Grid>
-                    <Card.Grid style={gridStyle}>
+                    <Card.Grid style={gridStyle} hoverable={!customTitle}>
                         <Space size={20}>
                             <AlertOutlined style={{ fontSize: '30px' }} />
                             <div className='sm:block'>
@@ -97,7 +106,7 @@ export default function VehiclePreviewInfo({ modelPreview }) {
                             </div>
                         </Space>
                     </Card.Grid>
-                    <Card.Grid style={gridStyle}>
+                    <Card.Grid style={gridStyle} hoverable={!customTitle}>
                         <Space size={20}>
                             <SlidersOutlined style={{ fontSize: '30px' }} />
                             <div className='sm:block'>
@@ -108,7 +117,7 @@ export default function VehiclePreviewInfo({ modelPreview }) {
                             </div>
                         </Space>
                     </Card.Grid>
-                    <Card.Grid style={gridStyle}>
+                    <Card.Grid style={gridStyle} hoverable={!customTitle}>
                         <Space size={20}>
                             <VerticalAlignTopOutlined style={{ fontSize: '30px' }} />
                             <div className='sm:block'>
@@ -119,7 +128,7 @@ export default function VehiclePreviewInfo({ modelPreview }) {
                             </div>
                         </Space>
                     </Card.Grid>
-                    <Card.Grid style={gridStyle}>
+                    <Card.Grid style={gridStyle} hoverable={!customTitle}>
                         <Space size={20}>
                             <TeamOutlined style={{ fontSize: '30px' }} />
                             <div className='sm:block'>
@@ -130,7 +139,7 @@ export default function VehiclePreviewInfo({ modelPreview }) {
                             </div>
                         </Space>
                     </Card.Grid>
-                    <Card.Grid style={gridStyle}>
+                    <Card.Grid style={gridStyle} hoverable={!customTitle}>
                         <Space size={20}>
                             <CarOutlined style={{ fontSize: '30px' }} />
                             <div className='sm:block'>
