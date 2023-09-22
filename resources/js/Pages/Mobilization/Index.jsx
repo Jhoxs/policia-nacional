@@ -34,7 +34,7 @@ const Index = ({ vehicleUser, f_maintenance, p_maintenance, filters, t_progress,
         {
             label: 'Todos',
             value: 'all'
-        },{
+        }, {
             label: 'Solicitud Enviada',
             value: "cero"
         }, {
@@ -56,7 +56,7 @@ const Index = ({ vehicleUser, f_maintenance, p_maintenance, filters, t_progress,
     const handleSeach = (value, itemValue) => {
         const iValue = itemValue.value || itemValue;
         setSearchKeyValue(iValue);
-        router.visit(route('maintenance.index', { value: value, key: iValue, filter:filterItemValue }), {
+        router.visit(route('maintenance.index', { value: value, key: iValue, filter: filterItemValue }), {
             preserveState: true,
             method: 'get'
         })
@@ -64,7 +64,7 @@ const Index = ({ vehicleUser, f_maintenance, p_maintenance, filters, t_progress,
 
     const handleFilter = (e) => {
         setFilterItemValue(e);
-        router.visit(route('maintenance.index', { filter: e, value: searchValue, key: searchKeyValue}), {
+        router.visit(route('maintenance.index', { filter: e, value: searchValue, key: searchKeyValue }), {
             preserveState: true,
             preserveScroll: true,
             replace: true,
@@ -110,7 +110,7 @@ const Index = ({ vehicleUser, f_maintenance, p_maintenance, filters, t_progress,
                 }
 
             </div>
-            <Row
+            {/* <Row
                 justify='end'
                 align='middle'
                 gutter={[12, 12]}
@@ -142,7 +142,7 @@ const Index = ({ vehicleUser, f_maintenance, p_maintenance, filters, t_progress,
                         onChange={value => handleFilter(value)}
                     />
                 </Col>
-            </Row>
+            </Row> */}
 
 
             <div className="mt-0">
