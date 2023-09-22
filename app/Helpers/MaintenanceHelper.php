@@ -16,4 +16,15 @@ class MaintenanceHelper
 
         return $dictionary[$status];
     }
+
+    public static function statusOrderDictionary($status)
+    {
+        $dictionary = [
+            0 => 'SOLICITUD ENVIADA',
+            1 => 'SOLICITUD RECHAZADA',
+            2 => 'SOLICITUD APROBADA'
+        ];
+
+        return $dictionary[$status];
+    }
 }

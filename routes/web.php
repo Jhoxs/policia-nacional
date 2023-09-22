@@ -12,6 +12,7 @@ use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\SubcircuitUserController;
 use App\Http\Controllers\SubcircuitVehicleController;
 use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\MobilizationOrderController;
 use App\Http\Controllers\GeneralRequestController;
 use App\Http\Controllers\UserVehicleController;
 use App\Http\Controllers\SuggestionController;
@@ -177,6 +178,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/download-maintenance-report', [MaintenanceController::class, 'downloadReportMaintenance'])->name('maintenance.download-maintenance-report');
     Route::post('/finish-maintenance-orderjob', [MaintenanceController::class, 'finishOrderJob'])->name('maintenance.finish-order-job');
     Route::post('/maintenance-order-end', [MaintenanceController::class, 'storeOrderEnd'])->name('maintenance.store-order-end');
+
+    //MobilizationORder
+    Route::get('/morder', [MobilizationOrderController::class, 'index'])->name('morder.index');
+    Route::get('/morder/create', [MobilizationOrderController::class, 'create'])->name('morder.create');
+    Route::post('/morder', [MobilizationOrderController::class, 'store'])->name('morder.store');
+    Route::post('/requestmorder', [MobilizationOrderController::class, 'storeRequest'])->name('requestmorder.store');
 
 
     //Request 
