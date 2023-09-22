@@ -131,7 +131,7 @@ const InProgress = ({ progressData }) => {
                                 </Link>
                             </>)
                         }
-                        {isManager && record.status == 0 && (
+                        {isManager && (record.status == 0 || record.status == 'SOLICITUD ENVIADA' ) && (
                             <>
                                 <Tooltip title={'Aceptar Solicitud'}>
                                     <Button
