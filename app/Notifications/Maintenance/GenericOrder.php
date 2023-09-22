@@ -17,7 +17,7 @@ class GenericOrder extends Notification
     public function __construct($user, $msj)
     {
         $this->user     = $user;
-        $this->mjs       = $msj;
+        $this->msj       = $msj;
     }
 
     /**
@@ -38,7 +38,7 @@ class GenericOrder extends Notification
         return (new MailMessage)
                     ->subject('Solicitudes')
                     ->greeting('Saludos, '.$this->user->name)
-                    ->line($this->msj)
+                    ->line(''.$this->msj)
                     ->line('Para más información puedes ingresar a la aplicación.')
                     ->action('Ingresar', url(env('APP_URL')));
     }
