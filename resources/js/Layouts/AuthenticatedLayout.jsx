@@ -3,7 +3,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { MenuFoldOutlined, MenuUnfoldOutlined, SmileOutlined, UserOutlined, CarOutlined, InboxOutlined,
     HomeOutlined, LockOutlined, LogoutOutlined, ApiOutlined, CaretDownOutlined, EnvironmentOutlined, TagsOutlined,
-    SnippetsOutlined, RocketOutlined, AuditOutlined,
+    SnippetsOutlined, RocketOutlined, AuditOutlined, IdcardOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Button, Col, theme, Row, Dropdown, Space, Typography, Avatar, Grid } from 'antd';
 import CustomAvatar from '@/Components/CustomAvatar';
@@ -40,6 +40,9 @@ export default function Authenticated({ user, header, title, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const { auth } = usePage().props
     const [collapsed, setCollapsed] = useState(false);
+    const userVehicle = auth.vehicle || []; 
+
+    const idUserVehicle = userVehicle && userVehicle.length > 0 ? userVehicle[0].id : -1;
 
     const permissions = auth.permissions || [];
    
@@ -157,6 +160,15 @@ export default function Authenticated({ user, header, title, children }) {
             ),
         },
         {
+            key: 'profile-vehicle.show',
+            icon: <IdcardOutlined />,
+            label: (
+                <Link href={route('profile-vehicle.show', idUserVehicle)}>
+                    Perfil Vehículo
+                </Link>
+            ),
+        },
+        {
             key: 'contract.index',
             icon: <SnippetsOutlined />,
             label: (
@@ -245,7 +257,7 @@ export default function Authenticated({ user, header, title, children }) {
         },
     ];
 
-    const filteredMenuItems = menuItems.filter(item => permissions.includes(item.key));
+    const filteredMenuItems = menuItems.filter(item => permissions.includes(item.key)|| (item.key === 'profile-vehicle.show' && idUserVehicle  !== -1) );
 
     const {
         token: { colorBgContainer },
