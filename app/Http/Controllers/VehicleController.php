@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Request as Rq;
@@ -14,6 +15,8 @@ use App\Http\Resources\VehicleCollection;
 use App\Http\Resources\VehicleResource;
 use App\Http\Requests\CreateVehicleRequest;
 use App\Http\Requests\UpdateVehicleRequest;
+//HELPERS
+use App\Helpers\StatusHelper;
 
 class VehicleController extends Controller
 {
@@ -143,5 +146,53 @@ class VehicleController extends Controller
         $vehicle->delete();
 
         return to_route('vehicle.index')->with('success', 'El vehículo se ha eliminado con éxito');
+    }
+
+    /****
+     *  Show profile from vehicle
+     */
+    public function profile(Request $request, string $id)
+    {
+        $vehicle      = Vehicle::find($request->id);
+        $idVehicle    = $vehicle->id ?? -1;
+        $userVehicles = Auth::user()->vehicles ?? [];
+        $uVehicle     = count($userVehicles) ? $userVehicles[0]->id : -1;
+        if(empty($vehicle)){ return Inertia::render('Result/Unauthorized',['response' => StatusHelper::statusCodeDictionary('404')]); } //Redirigimos cuando no exista mantenimiento
+        if($userVehicles === -1 || $uVehicle != $idVehicle ){ return Inertia::render('Result/Unauthorized',['response' => StatusHelper::statusCodeDictionary('403')]); }//Redirigimos cuando no tenga permiso para ver esa ruta
+
+
+
+        return Inertia::render('Vehicles/Profile',[
+            'vehicleInfo' => new VehicleResource($vehicle)
+        ]);
+    }
+
+    /***
+     *  Update info from profile vehicle
+     */
+    public function profileEdit(Request $request, string $id)
+    {
+        $vehicle      = Vehicle::find($id);
+        $mileage      = $vehicle->mileage ?? 0;
+        $idVehicle    = $vehicle->id ?? -1;
+        $userVehicles = Auth::user()->vehicles ?? [];
+        $uVehicle     = count($userVehicles) ? $userVehicles[0]->id : -1;
+        if(empty($vehicle)){ return Inertia::render('Result/Unauthorized',['response' => StatusHelper::statusCodeDictionary('404')]); } //Redirigimos cuando no exista mantenimiento
+        if($userVehicles === -1 || $uVehicle != $idVehicle ){ return Inertia::render('Result/Unauthorized',['response' => StatusHelper::statusCodeDictionary('403')]); }//Redirigimos cuando no tenga permiso para ver esa ruta
+    
+        $request->validate([
+            'mileage' => ['required', 'gte:'.$mileage],
+        ],[
+            'mileage.required' => 'El kilometraje es requerido',
+            'mileage.gte'      => 'El kilometraje debe ser superior al actual'
+        ]);
+
+
+        $vehicle->update([
+            'mileage' => $request->mileage
+        ]);
+
+        return to_route('profile-vehicle.show',$idVehicle)->with('success', 'El kilometraje se actualizó con exito');
+        
     }
 }

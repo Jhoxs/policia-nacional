@@ -34,6 +34,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
                 'permissions' => $request->user() ?  $request->user()->getAllPermissions()->pluck('name') : [],
+                'vehicle' => isset($request->user()->vehicles) ? $request->user()->vehicles : []
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [

@@ -171,7 +171,7 @@ class MaintenanceController extends Controller
         );
 
         //Send from email status maintenance in pdf
-        //Notification::sendNow($admin_user, new RegisterMaintenanceReport($infoMaintenance));
+        Notification::sendNow($admin_user, new RegisterMaintenanceReport($infoMaintenance));
         
         $maintenance = Maintenance::create([
             'user_id'           => $user_id,

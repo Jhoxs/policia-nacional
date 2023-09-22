@@ -13,6 +13,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('app:send-alert')
+                ->dailyAt('09:00')
+                ->environments(['production'])
+                ->withoutOverlapping(); 
     }
 
     /**

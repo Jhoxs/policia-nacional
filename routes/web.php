@@ -77,6 +77,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/vehicle/{id}', [VehicleController::class, 'edit'])->name('vehicle.edit');
     Route::patch('/vehicle/{id}', [VehicleController::class, 'update'])->name('vehicle.update');
     Route::delete('/vehicle/{id}', [VehicleController::class, 'destroy'])->name('vehicle.destroy');
+    Route::get('/profile-vehicle/{id}', [VehicleController::class, 'profile'])->name('profile-vehicle.show');
+    Route::patch('/profile-vehicle/{id}', [VehicleController::class, 'profileEdit'])->name('profile-vehicle.edit');
 
     //Subcircuit
     Route::get('/subcircuit', [SubcircuitController::class, 'index'])->name('subcircuit.index');

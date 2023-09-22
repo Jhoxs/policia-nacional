@@ -72,7 +72,7 @@ class GeneralRequestController extends Controller
                     'status' => 2
                 ]);
                 //Send notify 
-                //Notification::sendNow($maintenance->user, new AcceptMaintenanceNotify($maintenance));
+                Notification::sendNow($maintenance->user, new AcceptMaintenanceNotify($maintenance));
 
                 return to_route('requestmaintenance.index')->with('success', 'La solicitud se aceptó con éxito');
                 break;
@@ -83,7 +83,7 @@ class GeneralRequestController extends Controller
                     'reason_reject' => $m_info['reasonReject'] ?? null
                 ]);
                 //Send notify
-                //Notification::sendNow($maintenance->user, new RejectMaintenanceNotify($maintenance));
+                Notification::sendNow($maintenance->user, new RejectMaintenanceNotify($maintenance));
                 
                 return to_route('requestmaintenance.index')->with('success', 'La solicitud ha sido rechazada');
                 break;

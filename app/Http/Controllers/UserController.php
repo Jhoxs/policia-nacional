@@ -94,7 +94,7 @@ class UserController extends Controller
         $mail_info->email = $request->email;
         $mail_info->password = $password;
 
-        //Notification::sendNow($user, new CreateUserMailAlert($mail_info));
+        Notification::sendNow($user, new CreateUserMailAlert($mail_info));
 
         
         return to_route('user.index')->with('success', 'El usuario se ha creado con éxito');
